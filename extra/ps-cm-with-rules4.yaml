@@ -374,10 +374,6 @@ data:
         - source_labels: [__meta_kubernetes_pod_container_port_number]
           regex: "9093"
           action: keep
-      - scheme: http
-          static_configs:
-          - targets:
-            - "localhost:31500"
 
 
 
