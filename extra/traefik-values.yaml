@@ -1,0 +1,9 @@
+additionalArguments:
+  - "--metrics.prometheus=true"
+ports:
+  metrics:
+    expose: true
+    nodePort: 31800
+dashboard:
+  enable: true
+  ingressRoute: true

@@ -1,0 +1,26 @@
+image:
+  repository: "prom/mysqld-exporter"
+  tag: "v0.13.0"
+  pullPolicy: "Always"
+serviceMonitor:
+  # enabled should be set to true to enable prometheus-operator discovery of this service
+  enabled: false
+  interval: 60s
+collectors:
+  global_status: true
+  global_variables: true
+  info_schema.userstats: true
+  info_schema.clientstats: true
+  info_schema.tablestats: true
+  binlog_size: true
+  info_schema.processlist: true
+  info_schema.query_response_time: true
+
+annotations:
+  prometheus.io/scrape: "True"
+  prometheus.io/path: "/metrics"
+  prometheus.io/port: "9104"
+
+podLabels:
+  app: roar-db
+  name: mysql

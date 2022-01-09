@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: roar-web
+  name: roar-web
+  namespace: roar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: roar-web
+  template:
+    metadata:
+      labels:
+        app: roar-web
+    spec:
+      containers:
+      - image: quay.io/techupskills/roar-web-v1
+        imagePullPolicy: Always
+        name: roar-web
+        ports:
+        - containerPort: 8080
+          name: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: roar-web
+  name: roar-web
+  namespace: roar
+spec:
+  ports:
+  - name: frontend
+    port: 8089
+    targetPort: 8080
+  selector:
+    app: roar-web
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: roar-db
+  name: mysql
+  namespace: roar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: roar-db
+  template:
+    metadata:
+      labels:
+        app: roar-db
+        name: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: quay.io/techupskills/roar-db:v1
+        env:
+        - name: MYSQL_DATABASE
+          value: registry
+        - name: MYSQL_PASSWORD
+          value: admin
+        - name: MYSQL_ROOT_PASSWORD
+          value: root+1
+        - name: MYSQL_USER
+          value: admin
+        imagePullPolicy: Always
+        name: mysql
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: roar-db
+  name: mysql
+  namespace: roar
+spec:
+  ports:
+  - name: mysql
+    port: 3306
+    targetPort: 3306
+  selector:
+    name: roar-db
+

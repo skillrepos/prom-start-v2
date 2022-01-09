@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: roar-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/app-root: /roar
+  name: roar1
+  namespace: roar
+spec:
+  rules:
+    - host: hello-roar.info
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: roar-web
+              port:
+                number: 8089
+
+
