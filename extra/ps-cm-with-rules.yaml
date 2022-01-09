@@ -1,50 +1,20 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: prometheus
+    app.kubernetes.io/managed-by: Helm
+    chart: prometheus-15.0.2
+    component: server
+    heritage: Helm
+    release: pc
+  name: pc-prometheus-server
+  namespace: monitoring
 data:
   alerting_rules.yml: |-
     groups:
-    - name: Infrastructure alerts
+    - name: demo alerts
       rules:
-      - alert: High Pod Memory
-        expr: sum(container_memory_usage_bytes) > 1
-        for: 1m
-        labels:
-          severity: page
-        annotations:
-          summary: High Memory Usage
-      - alert: Cluster Memory Usage
-        expr: sum(container_memory_working_set_bytes{id="/"})/sum(machine_memory_bytes{}) * 100 > 90
-        for: 5m
-        labels:
-          severity: page
-        annotations:
-          summary: Cluster Memory Usage > 90%
-      - alert: Cluster CPU Usage 
-        expr: sum (rate (container_cpu_usage_seconds_total{id="/"}[5m])) / sum (machine_cpu_cores{}) * 100 > 90
-        for: 5m
-        labels:
-          severity: page
-        annotations:
-          summary: "Cluster CPU Usage  > 90%"
-          description: "Cluster CPU Usage on host {{$labels.instance}} : (current value: {{ $value }})."
-      - alert: Pod Memory usage
-        expr: sum (container_memory_working_set_bytes{image!="",name=~"^k8s_.*"}) by (container_label_io_kubernetes_pod_name) > 4026531841
-        for: 5m
-        labels:
-          severity: page
-        annotations:
-          summary: "Pod Memory usage > 90%"
-          description: "Pod Memory usage on host {{$labels.instance}} : (current value: {{ $value }})."
-  alerts: |-
-    groups:
-    - name: Infrastructure alerts
-      rules:
-      - alert: High Pod Memory
-        expr: sum(container_memory_usage_bytes) > 1
-        for: 1m
-        labels:
-          severity: page
-        annotations:
-          summary: High Memory Usage
       - alert: Cluster Memory Usage
         expr: sum(container_memory_working_set_bytes{id="/"})/sum(machine_memory_bytes{}) * 100 > 90
         for: 5m
@@ -70,15 +40,11 @@ data:
           description: "Pod Memory usage on host {{$labels.instance}} : (current value: {{ $value }})."
   prometheus.yml: |
     global:
-      evaluation_interval: 1m
-      scrape_interval: 1m
+      evaluation_interval: 30s
+      scrape_interval: 30s
       scrape_timeout: 10s
     rule_files:
-    - /home/diyuser3/prom-start/rules/rules.yml
-    - /etc/config/recording_rules.yml
     - /etc/config/alerting_rules.yml
-    - /etc/config/rules
-    - /etc/config/alerts
     scrape_configs:
     - job_name: traefik
       static_configs:
@@ -383,20 +349,7 @@ data:
         - source_labels: [__meta_kubernetes_pod_container_port_number]
           regex: "9093"
           action: keep
-  recording_rules.yml: |
-    {}
-  rules: |
-    {}
-kind: ConfigMap
-metadata:
-  labels:
-    app: prometheus
-    app.kubernetes.io/managed-by: Helm
-    chart: prometheus-15.0.2
-    component: server
-    heritage: Helm
-    release: pc
-  name: pc-prometheus-server
-  namespace: monitoring
+
+
 
 
