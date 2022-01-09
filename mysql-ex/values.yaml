@@ -5,7 +5,7 @@ image:
 serviceMonitor:
   # enabled should be set to true to enable prometheus-operator discovery of this service
   enabled: false
-  interval: 60s
+  interval: 30s
 collectors:
   global_status: true
   global_variables: true

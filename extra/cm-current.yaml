@@ -316,6 +316,10 @@ data:
     {}
 kind: ConfigMap
 metadata:
+  annotations:
+    meta.helm.sh/release-name: pc
+    meta.helm.sh/release-namespace: monitoring
+  creationTimestamp: "2022-01-09T04:45:55Z"
   labels:
     app: prometheus
     app.kubernetes.io/managed-by: Helm
@@ -325,5 +329,5 @@ metadata:
     release: pc
   name: pc-prometheus-server
   namespace: monitoring
-
-
+  resourceVersion: "919730"
+  uid: f3ae8d84-94ab-4876-94fe-a1982cb13282
