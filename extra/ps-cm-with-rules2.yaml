@@ -24,7 +24,7 @@ data:
           summary: MySQL down (instance {{ $labels.instance }})
           description: "MySQL instance is down on {{ $labels.instance }}\n VALUE = {{ $value }}\n LABELS = {{ $labels }}"
       - alert: MysqlHighSelectUsage
-        expr: rate(mysql_global_status_commands_total{command=~"(select)"}[5m]) * 100 > 35
+        expr: rate(mysql_global_status_commands_total{command=~"(select)"}[5m]) * 100 > 30
         for: 0m
         labels:
           severity: warning
