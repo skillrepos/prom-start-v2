@@ -5,7 +5,7 @@ sudo minikube start --vm-driver=none --kubernetes-version=1.23.1
 sudo mv /home/diyuser3/.kube /home/diyuser3/.minikube $HOME
 sudo chown -R $USER $HOME/.kube $HOME/.minikube
 sudo chown -R $USER $HOME/.minikube; chmod -R u+wrx $HOME/.minikube
-k create ns monitoring
+kubectl create ns monitoring
 helm install prom-start2 prometheus-community/kube-prometheus-stack -n monitoring --set prometheus.service.nodePort=31000 --set prometheus.service.type=NodePort
 
 
