@@ -12,5 +12,5 @@ sudo mv linux-amd64/helm /usr/local/bin
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 helm install prom-start prometheus-community/prometheus -n monitoring --set server.service.nodePort=31000 --set server.service.type=NodePort
-
+~/prom-start/extra/fixtmp2.sh
 
