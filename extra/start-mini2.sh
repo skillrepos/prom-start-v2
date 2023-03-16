@@ -9,6 +9,6 @@ kubectl create ns monitoring
 wget https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
 tar xvf helm-v3.9.2-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin
-helm install prom-start2 prometheus-community/kube-prometheus-stack -n monitoring --set prometheus.service.nodePort=31000 --set prometheus.service.type=NodePort
+helm install prom-start2 prometheus-community/prometheus -n monitoring --set prometheus.service.nodePort=31000 --set prometheus.service.type=NodePort
 
 
