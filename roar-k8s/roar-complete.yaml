@@ -16,7 +16,7 @@ spec:
         app: roar-web
     spec:
       containers:
-      - image: quay.io/techupskills/roar-web-v1
+      - image: quay.io/techupskills2/roar-web:1.0.0
         imagePullPolicy: Always
         name: roar-web
         ports:
@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: quay.io/techupskills/roar-db:v1
+        image: quay.io/techupskills2/roar-db:1.0.0
         env:
         - name: MYSQL_DATABASE
           value: registry
@@ -88,5 +88,5 @@ spec:
     port: 3306
     targetPort: 3306
   selector:
-    name: roar-db
+    name: mysql
 
