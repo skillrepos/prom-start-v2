@@ -11,6 +11,6 @@ tar xvf helm-v3.9.2-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-helm repo updatehelm install prom-start prometheus-community/prometheus -n monitoring --set server.service.nodePort=31000 --set server.service.type=NodePort
+helm install prom-start prometheus-community/prometheus -n monitoring --set server.service.nodePort=31000 --set server.service.type=NodePort
 
 
