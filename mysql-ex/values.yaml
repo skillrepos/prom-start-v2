@@ -1,5 +1,5 @@
 image:
-  repository: "prom/mysqld-exporter"
+  repository: "prometheus/mysqld-exporter"
   tag: "v0.13.0"
   pullPolicy: "Always"
 serviceMonitor:
