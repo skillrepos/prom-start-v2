@@ -319,11 +319,11 @@ metadata:
   labels:
     app: prometheus
     app.kubernetes.io/managed-by: Helm
-    chart: prometheus-15.0.2
+    chart: prometheus-19.7.2
     component: server
     heritage: Helm
-    release: pc
-  name: pc-prometheus-server
+    release: prom-start
+  name: prom-start-prometheus-server
   namespace: monitoring
 
 
