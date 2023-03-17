@@ -8,5 +8,4 @@ helm install prom-start prometheus-community/prometheus -n monitoring --set serv
 ~/prom-start/extra/fixtmp2.sh
 helm install grafana grafana/grafana --set service.type=NodePort --set service.nodePort=31750
 kubectl -n monitoring patch svc prom-start-alertmanager --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"},{"op":"replace","path":"/spec/ports/0/nodePort","value":31500}]'
-echo "!!! Grafana password follows !!!"
-kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
