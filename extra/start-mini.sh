@@ -5,5 +5,5 @@ sudo minikube start --vm-driver=none --kubernetes-version=1.23.1
 sudo mv /home/diyuser3/.kube /home/diyuser3/.minikube $HOME
 sudo chown -R $USER $HOME/.kube $HOME/.minikube
 sudo chown -R $USER $HOME/.minikube; chmod -R u+wrx $HOME/.minikube
-./extra/install-apps.sh
+~/prom-start/extra/install-apps.sh
 
