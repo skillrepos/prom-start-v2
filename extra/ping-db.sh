@@ -4,7 +4,7 @@ echo $result
 counter=$2
 offset=$2
 sleepval=$3
-echo admin | kubectl -n $1 exec -it $result -- mysql_config_editor set --login-path=local--host=localhost --user=admin --password &> /dev/null
+echo admin | kubectl -n $1 exec -it $result -- mysql_config_editor set --login-path=local --host=localhost --user=admin --password &> /dev/null
 while [ $counter -gt 0 ]
 do
    iteration=$(( $offset - $counter + 1 )) 
