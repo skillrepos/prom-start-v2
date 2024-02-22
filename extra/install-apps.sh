@@ -16,4 +16,5 @@ while [[ $(kubectl get pods prom-start-alertmanager-0 -n monitoring -o 'jsonpath
 kubectl label pod/prom-start-alertmanager-0 app=prometheus -n monitoring
 kubectl label pod/prom-start-alertmanager-0 component=alertmanager -n monitoring
 echo ...Forwarding ports
-
+kubectl port-forward -n monitoring svc/prom-start-prometheus-server :80 &
+kubectl port-forward -n monitoring svc/prom-start-prometheus-node-exporter :9100 &
