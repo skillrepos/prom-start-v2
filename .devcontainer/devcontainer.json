@@ -1,0 +1,40 @@
+{
+  "name": "Codespace to perform Kubernetes Deep Dive for Developers Labs",
+  "remoteEnv": {
+    "INSTALLATION_TYPE": "labs"
+  },
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "32gb"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "files.autoSave": "onFocusChange",
+        "editor.tabSize": 2
+      },
+      "workbench.editorAssociations": {
+          "*.md": "vscode.markdown.preview.editor"
+      },
+      "extensions": [
+        "ms-azuretools.vscode-docker"
+      ]
+    },
+  //  "codespaces": {
+  //    "openFiles": [
+ //       "codespace-labs.md"
+ //     ]
+ //   }
+    // Use 'postCreateCommand' to run commands after the container is created.
+	  "postCreateCommand": "./extra/install-apps.sh",
+    "forwardPorts": [9090, 9100, 9093, 80], 
+    "portsAttributes": {
+          "9090": {
+                  "label": "Prometheus"
+          }
+    }
+    
+    
+  } 
+}
