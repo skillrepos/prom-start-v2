@@ -4,5 +4,12 @@
     "cpus": 4,
     "memory": "8gb",
     "storage": "32gb"
-  }
-} 
+  },
+  "forwardPorts": [35200, 35300, 35400, 35500],
+  "portsAttributes": {
+          "35200": { "label": "* Prometheus     " },
+          "35300": { "label": "* Node Exporter  " },
+          "35400": { "label": "* Alert Manager  " },
+          "35500": { "label": "* Grafana        " }
+  },
+}
