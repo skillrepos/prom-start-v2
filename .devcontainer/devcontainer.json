@@ -12,5 +12,5 @@
           "35300": { "label": "* Node Exporter  " },
           "35400": { "label": "* Alert Manager  " },
           "35500": { "label": "* Grafana            " }
-  },
+  }
 }
