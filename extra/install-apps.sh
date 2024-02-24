@@ -12,8 +12,8 @@ helm install -n monitoring monitoring --version="38.0.3" prometheus-community/ku
 echo ...Waiting on resources to be ready
 kubectl -n monitoring wait --timeout 180s pod --all --for=condition=Ready
 echo ...Forwarding ports
-nohup kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-prometheus  35200:9090 &
-nohup kubectl port-forward -n monitoring svc/monitoring-prometheus-node-exporter 35300:9100 &
-nohup kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-alertmanager  35400:9093 &
-nohup kubectl port-forward -n monitoring svc/monitoring-grafana 35500:80 &
+nohup kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-prometheus  35200:9090 >&/dev/null &
+nohup kubectl port-forward -n monitoring svc/monitoring-prometheus-node-exporter 35300:9100 >&/dev/null &
+nohup kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-alertmanager  35400:9093 >&/dev/null &
+nohup kubectl port-forward -n monitoring svc/monitoring-grafana 35500:80 >&/dev/null &
 
