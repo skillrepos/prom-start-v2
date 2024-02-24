@@ -29,33 +29,39 @@ For all but Grafana, you can also open them in a smaller *preview* window in the
 k get all -n monitoring
 ```		
 
-2.	 Notice that we have both Prometheus itself and the node exporter piece running there (among others).  Let's take a look at the Prometheus dashboard in the web browser.  Open up a web browser and go to the url below to see it.  
+2.	 Notice that we have both Prometheus itself and the node exporter piece running there (among others).  Let's take a look at the Prometheus dashboard in the web browser.  Click on the PORTS tab, and find the row labeled **Prometheus**. Then hover over the **Forwarded Address** section, and click on the *globe* icon to open the application in a browser tab. 
 
-http://localhost:31000/
- 
-3.	We'll get to use the dashboard more in the labs.  For now, lets open up the node exporter's metrics page and look at the different information on it.  (Note that we only have one node on this cluster.) Go to the link below. Once on that page, scan through some of the metrics that are exposed by this exporter.  Then see if you can find the "total number of network bytes received on device "lo". (Hint: look for this metric " node_network_receive_bytes_total{device="lo"}").
+![Opening Prometheus](./images/promstart7.png?raw=true "Opening Prometheus")
 
-http://localhost:9100/metrics
 
- 
+![Prometheus](./images/promstart8.png?raw=true "Prometheus")
 
-4.	Now, let's see which targets Prometheus is automatically scraping from the cluster.  Back in the top menu (dark bar) on the main Prometheus page tab, select Status and then Targets (or go to http://localhost:31000/targets).  Then see if you can find how long ago the last scraping happened, and how long it took for the kubernetes-nodes-cadvisor target.
+
+3.	We'll get to use the dashboard more in the labs.  For now, lets open up the node exporter's metrics page and look at the different information on it.  (Note that we only have one node on this cluster.) Go to the link below. Once on that page, scan through some of the metrics that are exposed by this exporter.  Then see if you can find the "total number of network bytes received on device "lo". (Hint: look for this metric " node_network_receive_bytes_total{device="lo"}"). To open, follow the same process as for the Prometheus app (**PORTS-> Node Exporter -> Open in Browser**). Then click on the **Metrics** link on the browser screen that comes up.
+
+![Opening Node Exporter](./images/promstart9.png?raw=true "Opening Node Exporter")
+
+ ![Node Exporter](./images/promstart10.png?raw=true "Node Exporter")
+
+4.	Now, let's see which targets Prometheus is automatically scraping from the cluster.  Switch back to the Prometheus tab.  Back in the top menu (dark bar) on the main Prometheus page tab, select Status and then Targets. Search for **cadvisor** or scroll through the screen to find cadvisor.  Then see if you can find how long ago the last scraping happened, and how long it took for the **kubernetes-nodes-cadvisor** target. 
+
+![Targets](./images/promstart11.png?raw=true "Targets")
  
 5.	Let's setup an application in our cluster that has a built-in Prometheus metrics exporter - traefik - an ingress.  The Helm chart is already loaded for you.  So, we just need to create a namespace for it and run a script to deploy it.  After a few moments, you should be able to see things running in the traefik namespace.
 
-$ k create ns traefik
-$ ~/prom-start/extra/helm-install-traefik.sh 
-$ k get all -n traefik
+```
+k create ns traefik
+./extra/helm-install-traefik.sh 
+k get all -n traefik
+```
 
-6.	You should now be able to see the metrics area that Traefik exposes for Prometheus as a pod endpoint.  Take a look in the Status -> Targets area of Prometheus and see if you can find it (localhost:31000/targets) and use a Ctrl-F to try to find the text "traefik".  Note that this is the pod endpoint and not a standalone target.  (If you don't find it, see if the "kubernetes-pods (1/1 up)" has a "show more" button next to it.  If so, click on that to expand the list.)
- 
-
+6.	You should now be able to see the metrics area that Traefik exposes for Prometheus as a pod endpoint.  Take a look in the **Status -> Targets** area of Prometheus and see if you can find it and use a Ctrl-F/CMD-F to try to find the text **traefik**.  Note that this is the pod endpoint and not a standalone target.  (If you don't find it, see if the **kubernetes-pods (1/1 up)** has a *show more* button next to it.  If so, click on that to expand the list.)
  
 
 You can then click on the link in the Endpoint column to see the metrics that Traefik is generating.
  
 
-7.	While we can find it as a pod endpoint, we don't yet have the traefik metrics established as a standalone "job" being monitored in Prometheus. You can see this because there is no section specifically for "traefik (1/1 up)" in the Targets page.  Also, Traefik is not listed if you check the Prometheus service-discovery page at http://localhost:31000/service-discovery
+7.	While we can find it as a pod endpoint, we don't yet have the traefik metrics established as a standalone "job" being monitored in Prometheus. You can see this because there is no section specifically for "traefik (1/1 up)" in the Targets page.  Also, Traefik is not listed if you check the Prometheus service-discovery page at http://localhost:35200
  
 
 8.	So we need to tell Prometheus about traefik as a job.  There are two ways.  One way is just to apply two annotations to the service for the target application.   However, this will not work with more advanced versions of Prometheus.  So, we'll do this instead by updating a configmap that the Prometheus server uses to get job information out of.  First let's take a look at what has to be changed to add this job.  We have a "before" and "after" version in the extra directory. We'll use a tool called "meld" to see the differences.
@@ -67,10 +73,12 @@ You can then click on the link in the Endpoint column to see the metrics that Tr
 
 $ k apply -n monitoring -f ps-cm-with-traefik.yaml 
       
-10.	 Now if you refresh and look at the Status->Targets page in Prometheus at http://localhost:31000/targets and the Service Discovery page at http://localhost:31000/service-discovery and do a Ctrl-F to search for traefik, you should find that the new item shows up as a standalone item on both pages. (It may take a moment for the traefik target to reach (1/1 up) in the 
+10.	 Now if you refresh and look at the Status->Targets page in Prometheus and the Service Discovery page and do a Ctrl-F to search for traefik, you should find that the new item shows up as a standalone item on both pages. (It may take a moment for the traefik target to reach (1/1 up) in the 
 targets page, so you may have to refresh after a moment.)
  
- 
+<p align="center">
+**[END OF LAB]**
+</p>
 
 				END OF LAB
 Lab 2-  Deploying a separate exporter for an application
