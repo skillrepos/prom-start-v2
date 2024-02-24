@@ -1,0 +1,85 @@
+Forwarding from 127.0.0.1:35500 -> 3000
+Forwarding from [::1]:35500 -> 3000
+Forwarding from 127.0.0.1:35300 -> 9100
+Forwarding from [::1]:35300 -> 9100
+Forwarding from 127.0.0.1:35400 -> 9093
+Forwarding from [::1]:35400 -> 9093
+Forwarding from 127.0.0.1:35200 -> 9090
+Forwarding from [::1]:35200 -> 9090
+Forwarding from 127.0.0.1:35300 -> 9100
+Forwarding from 127.0.0.1:35500 -> 3000
+Forwarding from 127.0.0.1:35400 -> 9093
+Forwarding from [::1]:35500 -> 3000
+Forwarding from [::1]:35400 -> 9093
+Forwarding from 127.0.0.1:35200 -> 9090
+Forwarding from [::1]:35200 -> 9090
+Forwarding from [::1]:35300 -> 9100
+Forwarding from 127.0.0.1:35200 -> 9090
+Forwarding from [::1]:35200 -> 9090
+Forwarding from 127.0.0.1:35500 -> 3000
+Forwarding from [::1]:35500 -> 3000
+Forwarding from 127.0.0.1:35400 -> 9093
+Forwarding from [::1]:35400 -> 9093
+Forwarding from 127.0.0.1:35300 -> 9100
+Forwarding from [::1]:35300 -> 9100
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35300
+Handling connection for 35300
+Handling connection for 35300
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Forwarding from 127.0.0.1:35600 -> 9100
+Forwarding from [::1]:35600 -> 9100
+Handling connection for 35600
+Handling connection for 35600
+Forwarding from 127.0.0.1:31800 -> 9100
+Forwarding from [::1]:31800 -> 9100
+Handling connection for 31800
+Handling connection for 31800
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Unable to listen on port 31800: Listeners failed to create with the following errors: [unable to create listener: Error listen tcp4 127.0.0.1:31800: bind: address already in use unable to create listener: Error listen tcp6 [::1]:31800: bind: address already in use]
+error: unable to listen on any of the requested ports: [{31800 9100}]
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 31800
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+Handling connection for 35200
+E0224 18:27:35.986328   13547 portforward.go:409] an error occurred forwarding 35200 -> 9090: error forwarding port 9090 to pod ea0e6e33fa6dbc6b74a9d06d4fbca65dcb284c0c58c25162e9121d6f4c3983f1, uid : container not running (ea0e6e33fa6dbc6b74a9d06d4fbca65dcb284c0c58c25162e9121d6f4c3983f1)
+error: lost connection to pod
+Handling connection for 35400
+Handling connection for 35400
+Handling connection for 35400
+Handling connection for 35400
+Handling connection for 35400
+Handling connection for 35400
+Handling connection for 35400

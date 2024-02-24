@@ -1,7 +1,7 @@
 # Getting Started with Prometheus
 ## Monitoring Kubernetes Infrastructure and Applications for Reliability
 ## Session labs 
-## Revision 2.0 - 02/23/23
+## Revision 2.1 - 02/24/23
 
 **Startup IF NOT ALREADY DONE! (This will take several minutes to run.)**
 ```
@@ -214,8 +214,10 @@ rate(mysql_global_status_commands_total{command=~"(select)"}[5m])
 </p>
 
 
-Lab 4 -  Alerts and AlertManager
-Purpose:  In this lab, we'll see how to construct some simple alerts for Prometheus based on queries and conditions, and use AlertManager to see them.
+**Lab 4 -  Alerts and AlertManager**
+
+**Purpose:  In this lab, we'll see how to construct some simple alerts for Prometheus based on queries and conditions, and use AlertManager to see them.**
+
 1.	Let's  suppose that we want to get alerted when the "select" traffic spikes to high levels. We have a working "rate" query for our mysql instance which gives us that information from the last lab. Take another look at that one to refresh your memory.  Now let's change it to only show when our rate is above .35.  And let's also change it to use a scale of 0 to 100.  We do this by multiplying the result by 100.   Change the query to add the multiplier and "> 35" at the end and click on the blue "Execute" button. The query to use is shown below.
 
 ```
@@ -285,8 +287,10 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 **[END OF LAB]**
 </p>
 
-Lab 5 -  Grafana
-Purpose:  In this lab, we'll see how to use Grafana to display custom graphs and dashboards for Prometheus data.
+**Lab 5 - Grafana**
+
+**Purpose:  In this lab, we'll see how to use Grafana to display custom graphs and dashboards for Prometheus data.**
+
 1.	For this lab, we need to get the default password that was created when Grafana was installed. Run the command "get-gf-pass.sh" to retrieve it and then copy the password that is displayed.
 
 ```
@@ -343,8 +347,6 @@ https://grafana.com/grafana/dashboards/7362
 14.  Another cool one to import (via the same process) is the **Node Exporter Full** one.  It's available from the link below. A screenshot is also included.  (Here again, you'll need to select the Prometheus-1 data source as we did before.)
 https://grafana.com/grafana/dashboards/1860
  
-END OF LAB
-
 
 <p align="center">
 **[END OF LAB]**
