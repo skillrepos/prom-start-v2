@@ -247,22 +247,25 @@ rate(mysql_global_status_commands_total{command=~"(select)"}[5m])
 
 **Purpose:  In this lab, we'll see how to construct some simple alerts for Prometheus based on queries and conditions, and use AlertManager to see them.**
 
-1.	Let's  suppose that we want to get alerted when the "select" traffic spikes to high levels. We have a working "rate" query for our mysql instance which gives us that information from the last lab. Take another look at that one to refresh your memory.  Now let's change it to only show when our rate is above .35.  And let's also change it to use a scale of 0 to 100.  We do this by multiplying the result by 100.   Change the query to add the multiplier and "> 35" at the end and click on the blue "Execute" button. The query to use is shown below.
+1.	Let's  suppose that we want to get alerted when the *select* traffic spikes to high levels. We have a working *rate* query for our mysql instance which gives us that information from the last lab. Take another look at that one to refresh your memory.  Now let's change it to only show when our rate is above .35.  And let's also change it to use a scale of 0 to 100.  We do this by multiplying the result by 100.   Change the query to add the multiplier and **> 30** at the end and click on the blue **Execute** button. The query to use is shown below.
 
 ```
-rate(mysql_global_status_commands_total{command=~"(select)"}[5m]) * 100 > 35
+rate(mysql_global_status_commands_total{command=~"(select)"}[5m]) * 100 > 30
 ```
 
 2.	After clicking on the Execute button to refresh, you will probably see an empty query result on the page.  This is because we are targeting a certain threshold of data and that threshold hasn't been hit in the time range of the query (5 minutes).  To have some data to look at, let's run our program to simulate the load again with the rate query in effect. Execute the same script we used before again with 30 iterations and a 2 second wait in-between. 
 
 ```
-/workspaces/prom-start-v2/extra/ping-db.sh roar 30 2
+../extra/ping-db.sh roar 30 2
 ```
 
 3.	After a couple of minutes and a couple of refreshes, you'll be able to see that we no longer just see an increasing value, we can see where the highs and lows are.  
 
+![rate + multiplier](./images/promstart35.png?raw=true "rate + multiplier") 
  
-4.	While we can monitor by refreshing the graph and looking at it, it would work better to have an alert setup for this.  Let's see what alerts we have currently.  Switch to the alerts tab of Prometheus by clicking on "Alerts" in the dark bar at the top (or go to localhost:31000/alerts). Currently, you wil not see any configured.
+4.	While we can monitor by refreshing the graph and looking at it, it would work better to have an alert setup for this.  Let's see what alerts we have currently.  Switch to the alerts tab of Prometheus by clicking on "Alerts" in the dark bar at the top. Currently, you wil not see any configured.
+
+![no alerts](./images/promstart36.png?raw=true "no alerts") 
  
 5.	Now let's configure some alert rules.  We already have a configmap with some basic rules in it.  cat the file extra/ps-cm-with-rules.yaml with the grep command and look at the "alerting-rules.yml" definition under "data:". 
 
@@ -277,39 +280,48 @@ cat ps-cm-with-rules.yaml | grep -A20 alerting_rules.yml:
 k apply -n monitoring -f ps-cm-with-rules.yaml
 ``` 
 
-You can then expand those to see the alert definitions. Notice that each alert uses a PromQL query like we might enter in the main Prometheus query area.
+7.   This will take a few minutes to be picked up. You can then go back to the **Alerts** screen, **refresh it** and expand those to see the alert definitions. Notice that each alert uses a PromQL query like we might enter in the main Prometheus query area.
+
+![alert rules](./images/promstart37.png?raw=true "alert rules") 
  
-7.	Let's add some custom alert rules for a group for mysql.  These will follow a similar format as the other rules but using mysql PromQL queries, names, etc. There is already a file with them added - ps-cm-with-rules2.yaml. You can do a meld on that and our previous version of the cm data to see the new rules. (This is in the *extra* directory.)
+
+8.	Let's add some custom alert rules for a group for mysql. These will follow a similar format as the other rules but using mysql PromQL queries, names, etc. There is already a file with them added - ps-cm-with-rules2.yaml. You can do a diff on that and our previous version of the cm data to see the new rules. (This is in the *extra* directory.)
 
 ```
-meld ps-cm-with-rules.yaml ps-cm-with-rules2.yaml
+code -d ps-cm-with-rules2.yaml ps-cm-with-rules.yaml
 ```
+
+![alert rules diff](./images/promstart38.png?raw=true "alert rules diff") 
  
-8.	When you're done, just close the meld application. Now, let's apply the updated configmap manifest and add the new mysql alerts. Then refresh the Alerts view (and after a period of time) you should see the new mysql rules.
+9.	When you're done, just close the diff tab. Now, let's apply the updated configmap manifest and add the new mysql alerts. Then refresh the Alerts view (and after a period of time) you should see the new mysql rules.
 
 ```
 k apply -n monitoring -f ps-cm-with-rules2.yaml
 ``` 
 
-9.	Let's see if we can get our alert to fire now. Run our loading program to simulate the load again with the rate query in effect. Execute the same script we used before again with 60 iterations and a 0.5 second wait in-between. 
+![new alert rules](./images/promstart39.png?raw=true "new alert rules") 
+
+10.	Let's see if we can get our alert to fire now. Run our loading program to simulate the load again with the rate query in effect. Execute the same script we used before again with 60 iterations and a 0.5 second wait in-between. 
 
 ```
 /workspaces/prom-start-v2/extra/ping-db.sh roar 60 0.5
 ```
 
-10.	After this runs, after you refresh, on the Alerts tab, you should be able to see that the alert was fired. You can expand it to see details.
+11.	After this runs, after you refresh, on the Alerts tab, you should be able to see that the alert was fired. You can expand it to see details.
    
-11. Now, that our alert has fired, we should be able to see it in the Alert Manager application.  On this machine, it is exposed at node port 31500.  Open up that location and take a look.
+![alert firing](./images/promstart40.png?raw=true "alert firing")
+
+12. Now, that our alert has fired, we should be able to see it in the Alert Manager application.  On this machine, it is exposed at node port 31500.  Open up that location and take a look.
+ 
+![alert manager](./images/promstart41.png?raw=true "alert manager")
+
+
+13. You can also Silence alerts for some period of time.  Click on the Silence icon and enter the information for a temporary silence, such as 10m.  You'll also need to add a Creator (author) and Comment for the silence. Then you can click on the Create button to save your changes.
+
+ ![silence alert](./images/promstart42.png?raw=true "silence alert")
  
 
-
-
-12. You can also Silence alerts for some period of time.  Click on the Silence icon and enter the information for a temporary silence, such as 10m.  You'll also need to add a Creator (author) and Comment for the silence. Then you can click on the Create button to save your changes.
-
- 
- 
-
-13. You'll then have a new Silence saved.  You can Expire it in advance if needed, but while its active, if you repeat the load example, you should not get alerted in Alert Manager.
+14. You'll then have a new Silence saved.  You can Expire it in advance if needed, but while its active, if you repeat the load example, you should not get alerted in Alert Manager.
 
  
 <p align="center">
