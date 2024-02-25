@@ -3,9 +3,9 @@
 ## Session labs 
 ## Revision 2.1 - 02/24/23
 
-**Startup IF NOT ALREADY DONE! (This will take several minutes to run.)**
+**Startup IF NOT ALREADY DONE! (This will take several minutes to run and there will be some error/warning messages along the way.)**
 ```
-./extra/install-apps.sh
+extra/install-apps.sh
 ```
 **Accessing running apps***
 
@@ -37,7 +37,7 @@ k get all -n monitoring
 ![Prometheus](./images/promstart8.png?raw=true "Prometheus")
 
 
-3.	We'll get to use the dashboard more in the labs.  For now, lets open up the node exporter's metrics page and look at the different information on it.  (Note that we only have one node on this cluster.) Go to the link below. Once on that page, scan through some of the metrics that are exposed by this exporter.  Then see if you can find the "total number of network bytes received on device "lo". (Hint: look for this metric " node_network_receive_bytes_total{device="lo"}"). To open, follow the same process as for the Prometheus app (**PORTS-> Node Exporter -> Open in Browser**). Then click on the **Metrics** link on the browser screen that comes up.
+3.	Now, lets open up the node exporter's metrics page and look at the different information on it.  (Note that we only have one node on this cluster.) To open that page, follow the same process as for the Prometheus app for the Node Exporter link (**PORTS-> Node Exporter -> Open in Browser**). Then click on the **Metrics** link on the browser screen that comes up. nce on that page, scan through some of the metrics that are exposed by this exporter.  Then see if you can find the "total number of network bytes received on device "lo". (Hint: look for this metric **node_network_receive_bytes_total{device="lo"}**).
 
 ![Opening Node Exporter](./images/promstart9.png?raw=true "Opening Node Exporter")
 
@@ -45,26 +45,27 @@ k get all -n monitoring
 
 4.	Now, let's see which targets Prometheus is automatically scraping from the cluster.  Switch back to the Prometheus tab.  Back in the top menu (dark bar) on the main Prometheus page tab, select Status and then Targets. Search for **cadvisor** or scroll through the screen to find cadvisor.  Then see if you can find how long ago the last scraping happened, and how long it took for the **kubernetes-nodes-cadvisor** target. 
 
-![Targets](./images/promstart11.png?raw=true "Targets")
+![Targets](./images/promstart15.png?raw=true "Targets")
  
 5.	Let's setup an application in our cluster that has a built-in Prometheus metrics exporter - traefik - an ingress.  The Helm chart is already loaded for you.  So, we just need to create a namespace for it and run a script to deploy it.  After a few moments, you should be able to see things running in the traefik namespace.
 
 ```
 k create ns traefik
-./extra/helm-install-traefik.sh 
+extra/helm-install-traefik.sh 
 k get all -n traefik
 ```
 
 6.	You should now be able to see the metrics area that Traefik exposes for Prometheus as a pod endpoint.  Take a look in the **Status -> Targets** area of Prometheus and see if you can find it and use a Ctrl-F/CMD-F to try to find the text **traefik**.  Note that this is the pod endpoint and not a standalone target.  (If you don't find it, see if the **kubernetes-pods (1/1 up)** has a *show more* button next to it.  If so, click on that to expand the list.)
  
-
+![traefik in targets](./images/promstart16.png?raw=true "targets")
+ 
 You can then click on the link in the Endpoint column to see the metrics that Traefik is generating.
  
 
 7.	While we can find it as a pod endpoint, we don't yet have the traefik metrics established as a standalone "job" being monitored in Prometheus. You can see this because there is no section specifically for "traefik (1/1 up)" in the Targets page.  Also, Traefik is not listed if you check the Prometheus service-discovery page at http://localhost:35200
  
 
-8.	So we need to tell Prometheus about traefik as a job.  There are two ways.  One way is just to apply two annotations to the service for the target application.   However, this will not work with more advanced versions of Prometheus.  So, we'll do this instead by updating a configmap that the Prometheus server uses to get job information out of.  First let's take a look at what has to be changed to add this job.  We have a "before" and "after" version in the extra directory. We'll usethe built-in code diff tool to see the differences.
+8.	So we need to tell Prometheus about traefik as a job.  There are two ways.  One way is just to apply two annotations to the service for the target application. However, this will not work with more advanced versions of Prometheus. So, we'll do this instead by updating a configmap that the Prometheus server uses to get job information out of.  First let's take a look at what has to be changed to add this job.  We have a "before" and "after" version in the extra directory. We'll usethe built-in code diff tool to see the differences.
 
 ```
 cd extra (if not already there) 
@@ -79,8 +80,14 @@ code -d ps-cm-with-traefik.yaml ps-cm-start.yaml
 k apply -n monitoring -f ps-cm-with-traefik.yaml 
 ```
       
-10.	 Now if you refresh and look at the **Status->Targets** page in Prometheus and the **Service Discovery** page and do a Ctrl-F to search for **traefik**, you should find that the new item shows up as a standalone item on both pages. (It may take a moment for the traefik target to reach (1/1 up) in the 
-targets page, so you may have to refresh after a moment.)
+10.	 Now if you refresh and look at the **Status->Targets** page in Prometheus and the **Service Discovery** page and do a Ctrl-F/CMD+F to search for **traefik**, you should find that the new item shows up as a standalone item on both pages. (It may take a moment for the traefik target to reach (1/1 up) in the targets page, so you may have to refresh after a moment and even do this more than once.)
+
+![Traefik in targets](./images/promstart18.png?raw=true "Traefik in targets")
+![Traefik in service discovery](./images/promstart17.png?raw=true "Traefik in service discovery")
+
+11. (Optional) If you want to see the metrics generated by traefik, you can open up the app from the PORTS page (**Traefik metrics row**) and add **/metrics** at the end of the URL once the page has opened.  (There will be a 404 there until you add the **/metric** part.)
+
+![Traefik metrics](./images/promstart19.png?raw=true "Traefik metrics")
  
 <p align="center">
 **[END OF LAB]**
@@ -96,10 +103,10 @@ targets page, so you may have to refresh after a moment.)
 cd /workspaces/prom-start-v2/roar-k8s
 k create ns roar
 k apply -f roar-complete.yaml
-nohup kubectl port-forward -n roar svc/roar-web 31790:8089 &
+nohup kubectl port-forward -n roar svc/roar-web 31790:8089 >&/dev/null &
 ```
 
-2.	After a few moments, you can go to the **PORTS** tab, find the row for **31790** and click on the globe icon to open in the browser tab **or** click on the two-column icon to view the running application in a preview tab .  You will need to add **/roar** onto the end of the URL to see the actual app.
+2.	After a few moments, you can go to the **PORTS** tab, find the row for **ROAR Sample App (31790)** and click on the globe icon to open in the browser tab **or** click on the two-column icon to view the running application in a preview tab .  You will need to add **/roar** onto the end of the URL to see the actual app.
 
 ![Preview roar application](./images/promstart13.png?raw=true "Preview roar application")
 
@@ -129,7 +136,7 @@ cat secret.yaml
 k get all -n monitoring | grep mysql
 ```
 
-7.	Finally, to connect up the pieces, we need to define a job for Prometheus. We can do this the same way we did for Traefik in Lab 1. To see the changes, you can look at a diff between the configmap definition we used for Traefik and one we already have setup with the definition for the mysql exporter. You can exit meld when done.
+7.	Finally, to connect up the pieces, we need to define a job for Prometheus. We can do this the same way we did for Traefik in Lab 1. To see the changes, you can look at a diff between the configmap definition we used for Traefik and one we already have setup with the definition for the mysql exporter. You can click the **X** to the right of the name when done.
 
 ```
 code -d ps-cm-with-mysql.yaml ../extra/ps-cm-with-traefik.yaml
@@ -141,12 +148,16 @@ code -d ps-cm-with-mysql.yaml ../extra/ps-cm-with-traefik.yaml
 k apply -n monitoring -f ps-cm-with-mysql.yaml
 ```
 
-9.	You should now be able to see the mysql item in the targets page (localhost:31000/targets) and also in the service-discovery page (localhost:31000/service-discovery#mysql).  (Again, it may take a few minutes for the mysql target to appear and reach (1/1 up).)
- 
+9.	You should now be able to see the mysql item in the **Prometheus Targets** page and also in the **Service Discovery** page. (Again, it may take a few minutes for the mysql target to appear and reach (1/1 up).)
+
+ ![mysql exporter in targets](./images/promstart21.png?raw=true "mysql exporter in targets")
+ ![mysql exporter in service discovery](./images/promstart20.png?raw=true "mysql exporter in service discovery")
  
 10.	 (Optional) If you want to see the metrics that are exposed by this job, there is a small script named pf.sh (in mysql-ex) that you can run to setup port-forwarding for the mysql-exporter.  Then you can look in the browser at http://localhost:9104/metrics .
 
 $ ./pf.sh
+
+![mysql exporter metrics](./images/promstart22.png?raw=true "mysql exporter metrics")
 
 <p align="center">
 **[END OF LAB]**
@@ -156,33 +167,45 @@ $ ./pf.sh
 
 **Purpose:  In this lab, we’ll see how to construct queries with the PromQL language.**
 
-1.	We're now going to turn our attention to creating queries in the Prometheus interface using Prometheus' built-in query language, PromQL.  First, to get ready for this, in the browser that is running the Prometheus interface, switch back to the main Prometheus window by clicking on "Prometheus" in the dark line at the top, or going to localhost:31000.  Once there, click to enable the five checkboxes under the main menu.
+1.	We're now going to turn our attention to creating queries in the Prometheus interface using Prometheus' built-in query language, PromQL.  First, to get ready for this, in the browser that is running the Prometheus interface, switch back to the main Prometheus window by clicking on "Prometheus" in the dark line at the top.  Once there, click to enable the five checkboxes under the main menu.
 
+![selecting options](./images/promstart23.png?raw=true "selecting options")
 
-
-2.	There are a couple of different ways to find available metrics to choose from in Prometheus.  One way is to click on the query explorer icon next to the blue **Execute** button on the far right. Click on that and you can scroll through the list that pops up.  You don't need to pick any right now and you can close it (via the **x** in the upper right) when done.
+2.	There are a couple of different ways to find available metrics to choose from in Prometheus. One way is to click on the query explorer icon next to the blue **Execute** button on the far right. Click on that and you can scroll through the list that pops up.  You don't need to pick any right now and you can close it (via the **X** in the upper right) when done.
  
+![metrics explorer](./images/promstart24.png?raw=true "metrics explorer")
+
 3.	Another way to narrow in quickly on a metric you're interested in is to start typing in the **Expression** area and pick from the list that pops-up based on what you've typed. Try typing in the names of some of the applications that we are monitoring and see the metrics available.  For example, you can type in **con** to see the ones for containers, **mysql** to see the ones for mysql, and so on. You don't need to select any right now, so once you are done, you can clear out the Expression box.
  
+![mysql metrics](./images/promstart25.png?raw=true "mysql metrics")
+
 4.	Now, let's actually enter a metric and execute it and see what we get.  Let's try a simple *time series* one.  In the Expression box, type in *node_cpu_seconds_total*. As the name may suggest to you, this is a metric provided by the node exporter and tracks the total cpu seconds for the node. In our case, we only have one node.  After you type this in, click on the blue **Execute** button at the far right to see the results.  
 
+```
+node_cpu_seconds_total
+```
+
+![node_cpu_seconds_total metric](./images/promstart26.png?raw=true "node_cpu_seconds_total metric")
 
 
 5.	Notice that we have a lot of rows of output from this single query.  If you look closely, you can see that each row is different in some aspect, such as the cpu number or the mode. Rows of data like this are not that easy to digest. Instead, it is easier to visualize with a graph. So, click on the **Graph** link above the rows of data to see a visual representation.  You can then move your cursor around and get details on any particular point on the graph.  Notice that there is a color-coded key below the graph as well.
 
- 
+ ![metrics graph](./images/promstart27.png?raw=true "metrics graph")
 
 6.	What if we want to see only one particular set of data?  If you look closely at the lines below the graph, you'll see that each is qualified/filtered by a set of *labels* within { and }.  We can use the same syntax in the Expression box with any labels we choose to pick which items we see.  Change your query to the one below and then click on Execute again to see a filtered graph. (Notice that Prometheus will offer pop-up lists to help you fill in the syntax if you want to use them.) After you click Execute, you will see a single data series that increases over time.
 
 ```
 node_cpu_seconds_total{cpu="0",mode="user"}  
 ```
- 
+![individual metric](./images/promstart28.png?raw=true "individual metric")
+
 7.	So far we have used counters in our queries - a value that increases (or can be reset to 0) as indicated by the *total* in the name.  However, there are other kinds of time series such as *gauges* where values can go up or down.  Let's see an example of one of those. Change your query to the expression below and then click the blue Execute button again.
 
 ```
 node_memory_Active_bytes
 ```
+
+![gauge metric](./images/promstart29.png?raw=true "gauge metric")
 
 8.	Let's look at queries for another application. Suppose we want to monitor how much applications are referencing our database and doing "select" queries. We could use a mysql query to see the increase over time.  Enter the query below in the query area and then click on Execute. A screenshot below shows what this should look like.
 
@@ -190,15 +213,20 @@ node_memory_Active_bytes
 mysql_global_status_commands_total{command=~"(select)"}
 ```
  
+ ![mysql select metric 1](./images/promstart30.png?raw=true "mysql select metric 1")
+
+
 9.	Now let's simulate some query traffic to the database.  I have a simple shell script that randomly queries the database in our application x times while waiting a certain interval between queries. It's called ping-db.sh.  Run this in a terminal for 30 times with an interval of 1 second and then go back and refresh the graph again by clicking on the blue Execute button. (Note that you may need to wait  a bit and refresh again to see the spike.)
 
 ```
-prom-start-v2/extra/ping-db.sh roar 30 1
+../extra/ping-db.sh roar 30 1
 ```
+
+![select spike](./images/promstart31.png?raw=true "select spike")
 
 10.	After clicking on the Execute button to refresh, you should see a small spike on the graph from our monitoring. (It may take a minute for the monitoring to catch up.) This is something we could key off of to know there was a load, but it will always just be an increasing value. Let's focus in on a smaller timeframe so we can see the changes easier.  In the upper left of the Prometheus Graph tab, change the interval selector down to 10m. (Note that you can type in this field too.)
  
- 
+![decrease timeframe](./images/promstart33.png?raw=true "decrease timeframe") 
 
 11.	What we really need here is a way to detect any significant increase over a point in time regardless of the previous value.  We can use the rate function we saw before for this. Change the query in Prometheus to be one that shows us the rate of change over the last 5 minutes and click on the Execute button again.
 
@@ -208,6 +236,7 @@ rate(mysql_global_status_commands_total{command=~"(select)"}[5m])
 
 12.	After clicking on the Execute button to refresh, you should see a different representation of the data. After you refresh, you'll be able to see that we no longer just see an increasing value, we can see where the highs and lows are.  
  
+![rate over 5](./images/promstart34.png?raw=true "rate over 5") 
 
 <p align="center">
 **[END OF LAB]**

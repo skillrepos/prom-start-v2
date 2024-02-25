@@ -6,6 +6,7 @@ echo ...Creating namespace
 kubectl create ns monitoring
 echo ...Adding prometheus-community repo
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 echo ...Installing Prometheus and Grafana
 helm install -n monitoring monitoring --version="38.0.3" prometheus-community/kube-prometheus-stack --set prometheusOperator.admissionWebhooks.failurePolicy=Ignore
