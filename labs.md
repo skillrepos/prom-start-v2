@@ -311,7 +311,7 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
    
 ![alert firing](./images/promstart40.png?raw=true "alert firing")
 
-12. Now, that our alert has fired, we should be able to see it in the Alert Manager application.  On this machine, it is exposed at node port 31500.  Open up that location and take a look.
+12. Now, that our alert has fired, we should be able to see it in the Alert Manager application.  On this machine, it is exposed at node port 35500.  Open up that location up via the row in the PORTS tab and take a look.
  
 ![alert manager](./images/promstart41.png?raw=true "alert manager")
 
@@ -338,34 +338,38 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 /workspaces/prom-start-v2/extra/get-gf-pass.sh
 ```
 
-2.	We already have an instance of Grafana running on this system. Open up a browser to the home page at http://localhost:31750.  The default admin userid is *admin*.   The password will be the one that was echoed to your screen from step 1.  Just enter/paste the output from that step into the password field.
+2.	We already have an instance of Grafana running on this system at port 35500. Open up a browser to that page via the row in the PORTS tab.  The default admin userid is *admin*.   The password will be the one that was echoed to your screen from step 1.  Just enter/paste the output from that step into the password field.
 
+![grafana login](./images/promstart43.png?raw=true "grafana login")
  
 
 3.	Let's  first add our Prometheus instance as a Data Source.  Click on the *3 bar* menu at the top left and then select **Connections** and then **Data Sources** from the left menu.  Then click on the blue button for **Add data source**.  
  
-
+![select prometheus](./images/promstart44.png?raw=true "select prometheus")
+![prometheus add data source](./images/promstart45.png?raw=true "prometheus add data source")
   
 
 4. Select **Prometheus** and then for the HTTP URL field, enter
 	http://prom-start-prometheus-server.monitoring.svc.cluster.local:80
      Then click on **Save and Test**.  After a moment, you should get a response that indicates the data source is working.
  
-
+![enter source](./images/promstart46.png?raw=true "enter source")
+![test source](./images/promstart47.png?raw=true "test source")
 
 5. Now, let's create a simple dashboard for one of our mysql metrics.  Click on the *three bars* menu on the left and select *Dashboards*.  Then on the Dashboards pane, select **New** and **New dashboard** from the menu.  
  
+![new dash](./images/promstart48.png?raw=true "new dash") 
 
 6.  Click on **Add visualization**. 
 
-  
+![add viz](./images/promstart49.png?raw=true "add viz")  
 
 7.  Select the **Prometheus-1** data source on the next screen.
 
- 
+ ![select source](./images/promstart50.png?raw=true "select source")  
 
 
-8. Then click on the **Select metric** section and pick a metric to show.  For example, you could type in **node_disk_io_time_seconds_total**.
+8. Then click on the **Select metric** section (lower left) and pick a metric to show.  For example, you could type in **node_disk_io_time_seconds_total**.
 
 
  
@@ -376,18 +380,25 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 
 10.  While we can create individual dashboards with Grafana, that can take a lot of time and effort.  The community has already created a number of dashboards that we can just import and use.  So let's grab one for mysql.  Back on the main page, click on the *three bars* icon on the left side, then select **Dashboards** then work through to get to **Import**.   
 
+ ![import option](./images/promstart51.png?raw=true "import option")
  
 11.  In the field that says **Grafana.com dashboard URL or ID**, enter the location below and click the blue **Load** button.
 https://grafana.com/grafana/dashboards/7362
+
+ ![enter location](./images/promstart52.png?raw=true "enter location")
  
-12. On the next page, you can leave everything as-is, except at the bottom for the Prometheus source, click in that box and select our default Prometheus-1 data source that we setup. Then click the blue **Import** button at the bottom.
+12. On the next page, you can leave everything as-is, except at the bottom for the Prometheus source, click in that box and select our default Prometheus data source that we setup. Then click the blue **Import** button at the bottom.
  
+ ![data source](./images/promstart53.png?raw=true "data source")
 
 13. At this point, you should see a populated dashboard with a number of panels looking at the mysql exporter data from our system through Prometheus.  You can scroll around and explore.
  
-14.  Another cool one to import (via the same process) is the **Node Exporter Full** one.  It's available from the link below. A screenshot is also included.  (Here again, you'll need to select the Prometheus-1 data source as we did before.)
+ ![new dashboard](./images/promstart55.png?raw=true "new dashboard")
+
+14.  Another cool one to import (via the same process) is the **Node Exporter Full** one.  It's available from the link below. A screenshot is also included.  (Here again, you'll need to select the Prometheus data source as we did before.)
 https://grafana.com/grafana/dashboards/1860
  
+ ![new dashboard](./images/promstart56.png?raw=true "new dashboard") 
 
 <p align="center">
 **[END OF LAB]**
