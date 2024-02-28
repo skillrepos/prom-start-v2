@@ -6,8 +6,6 @@
     "storage": "32gb"
   },
   "postCreateCommand": "echo alias k=kubectl >> ~/.bash_aliases",
-  "postAttachCommand": "gh codespace ports visibility 35500:public -c $CODESPACE_NAME",
-  "postAttachCommand": "gh codespace ports visibility 35200:public -c $CODESPACE_NAME",
   "forwardPorts": [35200, 35300, 35400, 35500, 35600, 31790, 9104],
   "portsAttributes": {
     "9104": {
