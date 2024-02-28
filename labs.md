@@ -81,7 +81,7 @@ code -d ps-cm-with-traefik.yaml ps-cm-start.yaml
 k apply -n monitoring -f ps-cm-with-traefik.yaml 
 ```
       
-10.	 Now if you refresh and look at the **Status->Targets** page in Prometheus and the **Service Discovery** page and do a Ctrl-F/CMD+F to search for **traefik**, you should find that the new item shows up as a standalone item on both pages. (It may take a moment for the traefik target to reach (1/1 up) in the targets page, so you may have to refresh after a moment and even do this more than once.)
+10.	 Now if you refresh and look at the **Status->Targets** page in Prometheus and the **Service Discovery** page and filter via "traefik" in the search bar or do a Ctrl-F/CMD+F to search for **traefik**, you should find that the new item shows up as a standalone item on both pages. (It may take a moment for the traefik target to reach (1/1 up) in the targets page, so you may have to refresh after a moment and even do this more than once.)
 
 ![Traefik in targets](./images/promstart18.png?raw=true "Traefik in targets")
 ![Traefik in service discovery](./images/promstart17.png?raw=true "Traefik in service discovery")
