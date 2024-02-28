@@ -19,4 +19,6 @@ nohup kubectl port-forward -n monitoring svc/prom-start-prometheus-server  35200
 nohup kubectl port-forward -n monitoring svc/prom-start-prometheus-node-exporter 35300:9100 >&/dev/null &
 nohup kubectl port-forward -n monitoring svc/prom-start-alertmanager  35400:9093 >&/dev/null &
 nohup kubectl port-forward -n monitoring svc/grafana 35500:80 >&/dev/null &
-
+echo ...Updating port visibility
+gh codespace ports visibility 35500:public -c $CODESPACE_NAME
+gh codespace ports visibility 35200:public -c $CODESPACE_NAME
