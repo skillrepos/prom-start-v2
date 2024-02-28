@@ -343,11 +343,10 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 ![grafana login](./images/promstart43.png?raw=true "grafana login")
  
 
-3.	Let's  first add our Prometheus instance as a Data Source.  Click on the *3 bar* menu at the top left and then select **Connections** and then **Data Sources** from the left menu.  Then click on the blue button for **Add new data source**.  
+3.	Let's  first add our Prometheus instance as a Data Source.  Click on the *3 bar* menu at the top left and then select **Connections** and then **Data Sources** from the left menu.  Then click on the blue button for **Add data source**.  
  
-![select prometheus](./images/promstart44.png?raw=true "select prometheus")
-![prometheus add data source](./images/promstart45.png?raw=true "prometheus add data source")
-  
+![add data source](./images/promstart59.png?raw=true "add data source")
+ 
 
 4. Select **Prometheus** and then for the HTTP URL field, enter
 	http://prom-start-prometheus-server.monitoring.svc.cluster.local
@@ -356,15 +355,15 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 ![enter source](./images/promstart46.png?raw=true "enter source")
 ![test source](./images/promstart47.png?raw=true "test source")
 
-5. Now, let's create a simple dashboard for one of our mysql metrics.  Click on the *three bars* menu on the left and select *Dashboards*.  Then on the Dashboards pane, select **New** and **New dashboard** from the menu.  
+5. Now, let's create a simple dashboard for one of our mysql metrics.  Click on the *three bars* menu on the left and select *Dashboards*.  Then on the Dashboards pane, select **+ Create Dashboard** from the menu.  
  
-![new dash](./images/promstart48.png?raw=true "new dash") 
+![new dashboard](./images/promstart60.png?raw=true "new dashboard") 
 
 6.  Click on **Add visualization**. 
 
 ![add viz](./images/promstart49.png?raw=true "add viz")  
 
-7.  Select the **Prometheus-1** data source on the next screen.
+7.  Select the **Prometheus** data source on the next screen.
 
  ![select source](./images/promstart50.png?raw=true "select source")  
 
