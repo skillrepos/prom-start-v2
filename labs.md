@@ -55,8 +55,9 @@ extra/helm-install-traefik.sh
 k get all -n traefik
 ```
 
-6.	You should now be able to see the metrics area that Traefik exposes for Prometheus as a pod endpoint.  Take a look in the **Status -> Targets** area of Prometheus and see if you can find it and use a Ctrl-F/CMD-F to try to find the text **traefik**.  Note that this is the pod endpoint and not a standalone target.  (If you don't find it, see if the **kubernetes-pods (1/1 up)** has a *show more* button next to it.  If so, click on that to expand the list.)
- 
+6.	You should now be able to see the metrics area that Traefik exposes for Prometheus as a pod endpoint.  Take a look in the **Status -> Targets** area of Prometheus and see if you can find it. You can enter "traefik" in the search box or use Ctrl-F/CMD-F to try to find the text **traefik**.  Note that this is the pod endpoint and not a standalone target.  (If you don't find it, see if the **kubernetes-pods (1/1 up)** has a *show more* button next to it.  If so, click on that to expand the list.)
+
+![traefik in targets](./images/promstart61.png?raw=true "traefik in targets") 
 ![traefik in targets](./images/promstart16.png?raw=true "targets")
  
 You can then click on the link in the Endpoint column to see the metrics that Traefik is generating.
