@@ -343,14 +343,14 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 ![grafana login](./images/promstart43.png?raw=true "grafana login")
  
 
-3.	Let's  first add our Prometheus instance as a Data Source.  Click on the *3 bar* menu at the top left and then select **Connections** and then **Data Sources** from the left menu.  Then click on the blue button for **Add data source**.  
+3.	Let's  first add our Prometheus instance as a Data Source.  Click on the *3 bar* menu at the top left and then select **Connections** and then **Data Sources** from the left menu.  Then click on the blue button for **Add new data source**.  
  
 ![select prometheus](./images/promstart44.png?raw=true "select prometheus")
 ![prometheus add data source](./images/promstart45.png?raw=true "prometheus add data source")
   
 
 4. Select **Prometheus** and then for the HTTP URL field, enter
-	http://prom-start-prometheus-server.monitoring.svc.cluster.local:80
+	http://prom-start-prometheus-server.monitoring.svc.cluster.local
      Then click on **Save and Test**.  After a moment, you should get a response that indicates the data source is working.
  
 ![enter source](./images/promstart46.png?raw=true "enter source")
