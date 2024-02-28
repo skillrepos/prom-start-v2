@@ -63,7 +63,7 @@ k get all -n traefik
 You can then click on the link in the Endpoint column to see the metrics that Traefik is generating.
  
 
-7.	While we can find it as a pod endpoint, we don't yet have the traefik metrics established as a standalone "job" being monitored in Prometheus. You can see this because there is no section specifically for "traefik (1/1 up)" in the Targets page.  Also, Traefik is not listed if you check the Prometheus service-discovery page at http://localhost:35200
+7.	While we can find it as a pod endpoint, we don't yet have the traefik metrics established as a standalone "job" being monitored in Prometheus. You can see this because there is no section specifically for "traefik (1/1 up)" in the Targets page.  Also, Traefik is not listed if you check the Prometheus service-discovery page under **Status->Service Discovery**.
  
 
 8.	So we need to tell Prometheus about traefik as a job.  There are two ways.  One way is just to apply two annotations to the service for the target application. However, this will not work with more advanced versions of Prometheus. So, we'll do this instead by updating a configmap that the Prometheus server uses to get job information out of.  First let's take a look at what has to be changed to add this job.  We have a "before" and "after" version in the extra directory. We'll usethe built-in code diff tool to see the differences.
