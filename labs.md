@@ -1,7 +1,7 @@
 # Getting Started with Prometheus
 ## Monitoring Kubernetes Infrastructure and Applications for Reliability
 ## Session labs 
-## Revision 2.1 - 02/24/23
+## Revision 2.2 - 05/15/24
 
 **Startup IF NOT ALREADY DONE! (This will take several minutes to run and there will be some error/warning messages along the way.)**
 ```
@@ -36,18 +36,19 @@ k get all -n monitoring
 
 ![Prometheus](./images/promstart8.png?raw=true "Prometheus")
 
-
-3.	Now, lets open up the node exporter's metrics page and look at the different information on it.  (Note that we only have one node on this cluster.) To open that page, follow the same process as for the Prometheus app for the Node Exporter link (**PORTS-> Node Exporter -> Open in Browser**). Then click on the **Metrics** link on the browser screen that comes up. nce on that page, scan through some of the metrics that are exposed by this exporter.  Then see if you can find the "total number of network bytes received on device "lo". (Hint: look for this metric **node_network_receive_bytes_total{device="lo"}**).
+3.	Now, lets open up the node exporter's metrics page and look at the different information on it.  (Note that we only have one node on this cluster.) To open that page, go back to the codespace and follow the same process as for the Prometheus app for the Node Exporter link (**PORTS-> Node Exporter -> Open in Browser**). Then click on the **Metrics** link on the browser screen that comes up. nce on that page, scan through some of the metrics that are exposed by this exporter.  Then see if you can find the "total number of network bytes received on device "lo". (Hint: look for this metric **node_network_receive_bytes_total{device="lo"}**).
 
 ![Opening Node Exporter](./images/promstart9.png?raw=true "Opening Node Exporter")
 
  ![Node Exporter](./images/promstart10.png?raw=true "Node Exporter")
 
-4.	Now, let's see which targets Prometheus is automatically scraping from the cluster.  Switch back to the Prometheus tab.  Back in the top menu (dark bar) on the main Prometheus page tab, select Status and then Targets. Search for **cadvisor** or scroll through the screen to find cadvisor.  Then see if you can find how long ago the last scraping happened, and how long it took for the **kubernetes-nodes-cadvisor** target. 
+
+<br>
+4.	Now, let's see which targets Prometheus is automatically scraping from the cluster.  Switch back to the Prometheus application's tab in your browser.  Back in the top menu (dark bar) on the main Prometheus page tab, select Status and then Targets. Search for **cadvisor** or scroll through the screen to find cadvisor.  Then see if you can find how long ago the last scraping happened, and how long it took for the **kubernetes-nodes-cadvisor** target. 
 
 ![Targets](./images/promstart15.png?raw=true "Targets")
  
-5.	Let's setup an application in our cluster that has a built-in Prometheus metrics exporter - traefik - an ingress.  The Helm chart is already loaded for you.  So, we just need to create a namespace for it and run a script to deploy it.  After a few moments, you should be able to see things running in the traefik namespace.
+5.	Let's setup an application in our cluster that has a built-in Prometheus metrics exporter - traefik - an ingress. Switch back to the codespace. The Helm chart is already loaded for you.  So, we just need to create a namespace for it and run a script to deploy it.  In the terminal, run the commands below. After a few moments, you should be able to see things running in the traefik namespace.
 
 ```
 k create ns traefik
@@ -55,7 +56,7 @@ extra/helm-install-traefik.sh
 k get all -n traefik
 ```
 
-6.	You should now be able to see the metrics area that Traefik exposes for Prometheus as a pod endpoint.  Take a look in the **Status -> Targets** area of Prometheus and see if you can find it. You can enter "traefik" in the search box or use Ctrl-F/CMD-F to try to find the text **traefik**.  Note that this is the pod endpoint and not a standalone target.  (If you don't find it, see if the **kubernetes-pods (1/1 up)** has a *show more* button next to it.  If so, click on that to expand the list.)
+6.	You should now be able to see the metrics area that Traefik exposes for Prometheus as a pod endpoint.  In the tab where Prometheus is loaded, take a look in the **Status -> Targets** area of Prometheus and see if you can find it. You can enter "traefik" in the search box or use Ctrl-F/CMD-F to try to find the text **traefik**.  Note that this is the pod endpoint and not a standalone target.  (If you don't find it, see if the **kubernetes-pods (1/1 up)** has a *show more* button next to it. If so, click on that to expand the list.)
 
 ![traefik in targets](./images/promstart61.png?raw=true "traefik in targets") 
 ![traefik in targets](./images/promstart16.png?raw=true "targets")
@@ -66,7 +67,7 @@ You can then click on the link in the Endpoint column to see the metrics that Tr
 7.	While we can find it as a pod endpoint, we don't yet have the traefik metrics established as a standalone "job" being monitored in Prometheus. You can see this because there is no section specifically for "traefik (1/1 up)" in the Targets page.  Also, Traefik is not listed if you check the Prometheus service-discovery page under **Status->Service Discovery**.
  
 
-8.	So we need to tell Prometheus about traefik as a job.  There are two ways.  One way is just to apply two annotations to the service for the target application. However, this will not work with more advanced versions of Prometheus. So, we'll do this instead by updating a configmap that the Prometheus server uses to get job information out of.  First let's take a look at what has to be changed to add this job.  We have a "before" and "after" version in the extra directory. We'll usethe built-in code diff tool to see the differences.
+8.	So we need to tell Prometheus about traefik as a job.  There are two ways.  One way is just to apply two annotations to the service for the target application. However, this will not work with more advanced versions of Prometheus. So, we'll do this instead by updating a configmap that the Prometheus server uses to get job information out of. Back in the codespace, let's take a look at what has to be changed to add this job.  We have a "before" and "after" version in the extra directory. We'll usethe built-in code diff tool to see the differences. Run the following in the terminal.
 
 ```
 cd extra (if not already there) 
@@ -75,18 +76,18 @@ code -d ps-cm-with-traefik.yaml ps-cm-start.yaml
 
 ![Traefik change compare](./images/promstart12.png?raw=true "Traefik change compare")
  
-9.	It's easy to see the difference here.  When you're done viewing, just go ahead and click on the X to the right of the name to close the diff. Now we'll apply the new configmap definition with our additional job. (Ignore the warning.)
+9.	This will bring up a visual side-by-side diff for the file. It's easy to see the difference here.  When you're done viewing, just go ahead and click on the X to the right of the name to close the diff. Now we'll apply the new configmap definition with our additional job. (Ignore the warning.)
 
 ```
 k apply -n monitoring -f ps-cm-with-traefik.yaml 
 ```
       
-10.	 Now if you refresh and look at the **Status->Targets** page in Prometheus and the **Service Discovery** page and filter via "traefik" in the search bar or do a Ctrl-F/CMD+F to search for **traefik**, you should find that the new item shows up as a standalone item on both pages. (It may take a moment for the traefik target to reach (1/1 up) in the targets page, so you may have to refresh after a moment and even do this more than once.)
+10.	 Now if you go back to the Prometheus session and refresh and look at the **Status->Targets** page in Prometheus and the **Service Discovery** page and filter via "traefik" in the search bar or do a Ctrl-F/CMD+F to search for **traefik**, you should find that the new item shows up as a standalone item on both pages. (It may take a moment for the traefik target to reach (1/1 up) in the targets page, so you may have to refresh after a moment and even do this more than once.)
 
 ![Traefik in targets](./images/promstart18.png?raw=true "Traefik in targets")
 ![Traefik in service discovery](./images/promstart17.png?raw=true "Traefik in service discovery")
 
-11. (Optional) If you want to see the metrics generated by traefik, you can open up the app from the PORTS page (**Traefik metrics row**) and add **/metrics** at the end of the URL once the page has opened.  (There will be a 404 there until you add the **/metric** part.)
+11. (Optional) If you want to see the metrics generated by traefik, you can open up the app from the PORTS page (**Traefik metrics row**) and add **/metrics** at the end of the URL once the page has opened.  (There will be a 404 there until you add the **/metrics** part.)
 
 ![Traefik metrics](./images/promstart19.png?raw=true "Traefik metrics")
  
@@ -115,46 +116,46 @@ nohup kubectl port-forward -n roar svc/roar-web 31790:8089 >&/dev/null &
  
  ![mysql exporter](./images/promstart14.png?raw=true "mysql exporter")
 
-4.	As part of the configuration for this, we need to setup a new user with certain privileges in the database that's running for our backend. For simplicity, I've provided a simple script that you can run for this.  You can take a look at the script to see what it does and then run it to add the user and privileges. (Note that it requires the namespace as an argument to be passed to it.) This script and other files are in a different directory under prom-start-v2 named **mysql-ex**.
+4.	As part of the configuration for this, we need to setup a new user with certain privileges in the database that's running for our backend. For simplicity, I've provided a simple script that you can run for this.  You can take a look at the script to see what it does and then run it to add the user and privileges. (Note that it requires the namespace as an argument to be passed to it.) This script and other files are in a different directory under prom-start-v2 named **mysql-ex**. For the last command, we are supplying as an argument the namespace where the database is running.
 
 ```
 cd /workspaces/prom-start-v2/mysql-ex
 cat update-db.sh
-./update-db.sh roar  (note we supply namespace where db is running)
+./update-db.sh roar  
 ```
-
+<br>
 5.	Now we are ready to deploy the mysql helm chart to get our mysql exporter up and running.  To do this we need to supply a values.yaml file that defines the image we want to use, a set of metrics "collectors" and the pod to use (via labels).  We also have a data file for a secret that is required with information on the service, user, password, and port that we want to access.  Take a look at those files.
 
 ```
 cat values.yaml
 cat secret.yaml
 ```
-
+<br>
 6.	Now we can go ahead and deploy the helm chart for the exporter with our custom values.  For convenience, there is a script that runs the helm install.  After a few moments you should be able to see things spinning up in the monitoring namespace.
 
 ```
 ./helm-install-mysql-ex.sh
 k get all -n monitoring | grep mysql
 ```
-
+<br>
 7.	Finally, to connect up the pieces, we need to define a job for Prometheus. We can do this the same way we did for Traefik in Lab 1. To see the changes, you can look at a diff between the configmap definition we used for Traefik and one we already have setup with the definition for the mysql exporter. You can click the **X** to the right of the name when done.
 
 ```
 code -d ps-cm-with-mysql.yaml ../extra/ps-cm-with-traefik.yaml
 ```
- 
+<br> 
 8.	Now you can apply the updated configmap definition.
 
 ```
 k apply -n monitoring -f ps-cm-with-mysql.yaml
 ```
-
-9.	You should now be able to see the mysql item in the **Prometheus Targets** page and also in the **Service Discovery** page. (Again, it may take a few minutes for the mysql target to appear and reach (1/1 up).)
+<br>
+9.	Switching back to the application, you should now be able to see the mysql item in the **Prometheus Targets** page and also in the **Service Discovery** page. (Again, it may take a few minutes for the mysql target to appear and reach (1/1 up).)
 
  ![mysql exporter in targets](./images/promstart21.png?raw=true "mysql exporter in targets")
  ![mysql exporter in service discovery](./images/promstart20.png?raw=true "mysql exporter in service discovery")
- 
-10.	 (Optional) If you want to see the metrics that are exposed by this job, there is a small script named pf.sh (in mysql-ex) that you can run to setup port-forwarding for the mysql-exporter.  Then you can look in the browser at http://localhost:9104/metrics .
+<br> 
+10.	 (Optional) If you want to see the metrics that are exposed by this job, there is a small script named pf.sh (in mysql-ex) that you can run to setup port-forwarding for the mysql-exporter.  Then you can look in the browser via the location from the PORTS tab.
 
 $ ./pf.sh
 
@@ -217,7 +218,7 @@ mysql_global_status_commands_total{command=~"(select)"}
  ![mysql select metric 1](./images/promstart30.png?raw=true "mysql select metric 1")
 
 
-9.	Now let's simulate some query traffic to the database.  I have a simple shell script that randomly queries the database in our application x times while waiting a certain interval between queries. It's called ping-db.sh.  Run this in a terminal for 30 times with an interval of 1 second and then go back and refresh the graph again by clicking on the blue Execute button. (Note that you may need to wait  a bit and refresh again to see the spike.)
+9.	Now let's simulate some query traffic to the database.  I have a simple shell script that randomly queries the database in our application x times while waiting a certain interval between queries. It's called ping-db.sh.  Run this in a terminal for 30 times with an interval of 1 second per the command below. Then go back and refresh the graph again by clicking on the blue Execute button. (Note that you may need to wait a bit and refresh again to see the spike.)
 
 ```
 ../extra/ping-db.sh roar 30 1
@@ -254,7 +255,7 @@ rate(mysql_global_status_commands_total{command=~"(select)"}[5m])
 rate(mysql_global_status_commands_total{command=~"(select)"}[5m]) * 100 > 30
 ```
 
-2.	After clicking on the Execute button to refresh, you will probably see an empty query result on the page.  This is because we are targeting a certain threshold of data and that threshold hasn't been hit in the time range of the query (5 minutes).  To have some data to look at, let's run our program to simulate the load again with the rate query in effect. Execute the same script we used before again with 30 iterations and a 2 second wait in-between. 
+2.	After clicking on the Execute button to refresh, you will probably see an empty query result on the page.  This is because we are targeting a certain threshold of data and that threshold hasn't been hit in the time range of the query (5 minutes).  To have some data to look at, let's run our program to simulate the load again with the rate query in effect. Back in the codespace's terminal, execute the same script we used before with 30 iterations and a 2 second wait in-between. 
 
 ```
 ../extra/ping-db.sh roar 30 2
@@ -268,7 +269,7 @@ rate(mysql_global_status_commands_total{command=~"(select)"}[5m]) * 100 > 30
 
 ![no alerts](./images/promstart36.png?raw=true "no alerts") 
  
-5.	Now let's configure some alert rules.  We already have a configmap with some basic rules in it.  cat the file extra/ps-cm-with-rules.yaml with the grep command and look at the "alerting-rules.yml" definition under "data:". 
+5.	Now let's configure some alert rules.  We already have a configmap with some basic rules in it. Back in the terminal, "cat" the file extra/ps-cm-with-rules.yaml with the grep command and look at the "alerting-rules.yml" definition under "data:". 
 
 ```
 cd /workspaces/prom-start-v2/extra 
@@ -308,7 +309,7 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 /workspaces/prom-start-v2/extra/ping-db.sh roar 60 0.5
 ```
 
-11.	After this runs, after you refresh, on the Alerts tab, you should be able to see that the alert was fired. You can expand it to see details.
+11.	After this runs, refresh Prometheus in the browser. Then, on the Alerts tab, you should be able to see that the alert was fired. You can expand it to see details.
    
 ![alert firing](./images/promstart40.png?raw=true "alert firing")
 
@@ -351,7 +352,7 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 
 4. Select **Prometheus** and then for the HTTP URL field, enter
 	http://prom-start-prometheus-server.monitoring.svc.cluster.local
-     Then click on **Save and Test**.  After a moment, you should get a response that indicates the data source is working.
+     Then scroll to the bottom of the page and click on **Save and Test**.  After a moment, you should get a response that indicates the data source is working.
  
 ![enter source](./images/promstart46.png?raw=true "enter source")
 ![test source](./images/promstart47.png?raw=true "test source")
@@ -371,14 +372,14 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 
 8. Then click on the **Select metric** section (lower left) and pick a metric to show.  For example, you could type in **node_disk_io_time_seconds_total**.
 
-
+ ![select metric](./images/promstart62.png?raw=true "select metric")  
  
 
 9.  When done, click on the **Run queries** button and you should see a new graph being shown.
 
- 
+![run queries](./images/promstart63.png?raw=true "run queries")  
 
-10.  While we can create individual dashboards with Grafana, that can take a lot of time and effort.  The community has already created a number of dashboards that we can just import and use.  So let's grab one for mysql.  Back on the main page, click on the *three bars* icon on the left side, then select **Dashboards** then work through to get to **Import**.   
+10.  While we can create individual dashboards with Grafana, that can take a lot of time and effort.  The community has already created a number of dashboards that we can just import and use.  So let's grab one for mysql.  Back on the main page, click on the *three bars* icon on the left side, then select **Dashboards** then click on **+ Create Dashboard** to get to the **+Add visualization** page.  Do not click on the button to add a visualization. Instead click on the **Import dashboard** button below and to the right.   
 
  ![import option](./images/promstart51.png?raw=true "import option")
  
@@ -407,3 +408,4 @@ https://grafana.com/grafana/dashboards/1860
 <p align="center">
 (c) 2024 Brent Laster and Tech Skills Transformations
 </p>
+
