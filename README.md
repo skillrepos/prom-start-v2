@@ -1,3 +1,6 @@
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/github/docs)
+
+
 # Getting Started with Prometheus - lab setup
 
 These instructions will guide you through configuring a GitHub Codespaces environment that you can use to run the course labs.
