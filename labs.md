@@ -323,15 +323,6 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 12. Now, that our alert has fired, we should be able to see it in the Alert Manager application.  On this machine, it is exposed at node port 35500.  Open up that location up via the row in the PORTS tab and take a look.
  
 ![alert manager](./images/promstart41.png?raw=true "alert manager")
-
-
-13. You can also Silence alerts for some period of time.  Click on the Silence icon and enter the information for a temporary silence, such as 10m.  You'll also need to add a Creator (author) and Comment for the silence. Then you can click on the Create button to save your changes.
-
- ![silence alert](./images/promstart42.png?raw=true "silence alert")
- 
-
-14. You'll then have a new Silence saved.  You can Expire it in advance if needed, but while its active, if you repeat the load example, you should not get alerted in Alert Manager.
-
  
 <p align="center">
 **[END OF LAB]**
