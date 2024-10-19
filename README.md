@@ -103,3 +103,23 @@ This will open it up in a tab above your terminal. Then you can follow along wit
 Any command in the gray boxes is either code intended to be run in the console or code to be updated in a file.
 
 Labs doc: [Getting Started with Prometheus Labs](labs.md)
+
+**Now, you are ready for the labs!**
+
+**4. (Optional, but recommended) Change your codespace's default timeout from 30 minutes to longer (60 for half-day sessions, 90 for deep dive sessions).**
+To do this, when logged in to GitHub, go to https://github.com/settings/codespaces and scroll down on that page until you see the *Default idle timeout* section. Adjust the value as desired.
+
+![Changing codespace idle timeout value](./images/gaidd4.png?raw=true "Changing codespace idle timeout value")
+
+**NOTE: If your codespace times out and you need to restart it**
+
+1. Click on the *Restart* button
+2. In the terminal, run the *extra/restart.sh* script
+
+If, for some reason, you lose the tab with the codespace
+
+1. Go to https://github.com/your_github_userid/codespaces
+2. Find the codespace in the list, right-click, and select *Open in browser*
+3. In the terminal, run the *extra/restart.sh* script
+
+<br/><br/>
