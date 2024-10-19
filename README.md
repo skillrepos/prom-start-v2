@@ -1,35 +1,28 @@
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/skillrepos/prom-start-v2?quickstart=1)
-
-
 # Getting Started with Prometheus - lab setup
 
-These instructions will guide you through configuring a GitHub Codespaces environment that you can use to run the course labs.
+These instructions will guide you through configuring a GitHub Codespaces environment that you can use to run the course labs. If you prefer, and you understand how to install and use the applications, you can install them locally and clone the repo. But the instructions in the course and labs will reference the codespace environment setup.
 
 These steps **must** be completed prior to starting the actual labs.
 
-## Create your own repository for these labs
+<br/><br/>
+## 1. Create your own codespace to run the labs by clicking on the button below.
+<br/><br/>
 
-- Ensure that you have created a repository by forking the [skillrepos/prom-start-v2](https://github.com/skillrepos/prom-start-v2) project as a template into your own GitHub area.
-- You do this by clicking the `Fork` button in the upper right portion of the main project page and following the steps to create a copy in **your-github-userid/prom-start-v2** .
+Click here ------> [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/skillrepos/prom-start-v2?quickstart=1)
 
-![Forking repository](./images/promstart1.png?raw=true "Forking the repository")
+<br/><br/>
 
-![Forking repository](./images/promstart2.png?raw=true "Forking the repository")
+Then click on the option to create a new codespace.
 
-## Configure your codespace
+![Creating new codespace from button](./images/prom-codespace-start.png?raw=true "Creating new codespace from button")
 
-1. In your forked repository, start a new codespace.
+**This will run for several minutes while it gets everything ready.**
 
-    - Click the `Code` button on your repository's landing page.
-    - Click the `Codespaces` tab.
-    - Click `Create codespaces on main` to create the codespace.
-    - After the codespace has initialized there will be a terminal present.
-
-![Starting codespace](./images/promstart3.png?raw=true "Starting your codespace")
+<br/><br/>
 
 
-## Start the Kubernetes cluster and install the apps needed
-2. There is a script file in [**extra/install-apps.sh**](./roar-k8s/install-apps.sh) :
+## 2. Start the Kubernetes cluster and install the apps needed
+There is a script file in [**extra/install-apps.sh**](./roar-k8s/install-apps.sh) :
 
     - Run the following commands in the codespace's terminal (**This will several minutes to run and you can ignore any WARNING messages or Error from server (NotFound) messages - these are expected.**):
 
@@ -98,9 +91,11 @@ pod/prom-start-alertmanager-0 labeled
 ...Forwarding ports
 ```
 
-## Labs
+## 3. Open the labs
 
-After the codespace has started, open the labs document by going to the file tree on the left, find the file named **labs.md**, right-click on it, and open it with the **Preview** option.)
+You can open the file **labs.md** in a separate browser session outside of your codespace or directly in your codespace. 
+
+To open it in your codespace, after the codespace has started, open the labs document by going to the file tree on the left, find the file named **labs.md**, right-click on it, and open it with the **Preview** option.
 
 ![Labs doc preview in codespace](./images/promstart58.png?raw=true "Labs doc preview in codespace")
 
