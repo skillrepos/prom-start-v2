@@ -1,7 +1,7 @@
 # Getting Started with Prometheus
 ## Monitoring Kubernetes Infrastructure and Applications for Reliability
 ## Session labs 
-## Revision 2.2 - 05/15/24
+## Revision 2.3 - 10/19/24
 
 **Startup IF NOT ALREADY DONE! (This will take several minutes to run and there will be some error/warning messages along the way.)**
 ```
@@ -60,8 +60,6 @@ k get all -n traefik
 
 ![traefik in targets](./images/promstart61.png?raw=true "traefik in targets") 
 ![traefik in targets](./images/promstart16.png?raw=true "targets")
- 
-You can then click on the link in the Endpoint column to see the metrics that Traefik is generating.
  
 
 7.	While we can find it as a pod endpoint, we don't yet have the traefik metrics established as a standalone "job" being monitored in Prometheus. You can see this because there is no section specifically for "traefik (1/1 up)" in the Targets page.  Also, Traefik is not listed if you check the Prometheus service-discovery page under **Status->Service Discovery**.
