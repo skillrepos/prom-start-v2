@@ -138,6 +138,7 @@ cat secret.yaml
 k get all -n monitoring | grep mysql
 ```
 <br>
+
 7.	Finally, to connect up the pieces, we need to define a job for Prometheus. We can do this the same way we did for Traefik in Lab 1. To see the changes, you can look at a diff between the configmap definition we used for Traefik and one we already have setup with the definition for the mysql exporter. You can click the **X** to the right of the name when done.
 
 ```
@@ -145,17 +146,20 @@ code -d ps-cm-with-mysql.yaml ../extra/ps-cm-with-traefik.yaml
 ```
  ![mysql diffs](./images/promstart64.png?raw=true "mysql diffs")
 <br> 
+
 8.	Now you can apply the updated configmap definition.
 
 ```
 k apply -n monitoring -f ps-cm-with-mysql.yaml
 ```
 <br>
+
 9.	Switching back to the application, you should now be able to see the mysql item in the **Prometheus Targets** page and also in the **Service Discovery** page. (Again, it may take a few minutes for the mysql target to appear and reach (1/1 up).)
 
  ![mysql exporter in targets](./images/promstart21.png?raw=true "mysql exporter in targets")
  ![mysql exporter in service discovery](./images/promstart20.png?raw=true "mysql exporter in service discovery")
 <br> 
+
 10.	 (Optional) If you want to see the metrics that are exposed by this job, there is a small script named pf.sh (in mysql-ex) that you can run to setup port-forwarding for the mysql-exporter.  Then you can look in the browser via the location from the PORTS tab.
 
 $ ./pf.sh
