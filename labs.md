@@ -349,8 +349,10 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
  
 
 4. Select **Prometheus** and then for the HTTP URL field, enter
-	http://prom-start-prometheus-server.monitoring.svc.cluster.local
-     Then scroll to the bottom of the page and click on **Save and Test**.  After a moment, you should get a response that indicates the data source is working.
+```   
+http://prom-start-prometheus-server.monitoring.svc.cluster.local
+```
+Then scroll to the bottom of the page and click on **Save and Test**.  After a moment, you should get a response that indicates the data source is working.
  
 ![enter source](./images/promstart46.png?raw=true "enter source")
 ![test source](./images/promstart47.png?raw=true "test source")
