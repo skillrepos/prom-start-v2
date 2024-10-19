@@ -17,6 +17,8 @@ For all but Grafana, you can also open them in a smaller *preview* window in the
 
 ![Accessing apps through PORTS tab](./images/promstart5.png?raw=true "Accessing apps through PORTS tab")
 
+**NOTE: If you need to restart your codespace, run the *extra/restart.sh* script to get things running again.**
+
 **NOTE: To copy and paste in the codespace using the mouse, you will need to hold down the 'Shift' key while you click 'Copy' or 'Paste'. Alternatively, you can use the keyboard commands - CTRL+C and CTRL+V.**
 
 **Lab 1 - Monitoring with Prometheus**
@@ -141,6 +143,7 @@ k get all -n monitoring | grep mysql
 ```
 code -d ps-cm-with-mysql.yaml ../extra/ps-cm-with-traefik.yaml
 ```
+ ![mysql diffs](./images/promstart64.png?raw=true "mysql diffs")
 <br> 
 8.	Now you can apply the updated configmap definition.
 
