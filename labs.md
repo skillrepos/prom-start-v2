@@ -106,7 +106,7 @@ k apply -f roar-complete.yaml
 nohup kubectl port-forward -n roar svc/roar-web 31790:8089 >&/dev/null &
 ```
 
-2.	After a few moments, you can go to the **PORTS** tab, find the row for **ROAR Sample App (31790)** and click on the globe icon to open in the browser tab **or** click on the two-column icon to view the running application in a preview tab .  You will need to add **/roar** onto the end of the URL to see the actual app.
+2.	After a few moments, you can go to the **PORTS** tab, find the row for **ROAR Sample App (31790)** and click on the globe icon to open in the browser tab **or** click on the two-column icon to view the running application in a preview tab .  You will need to add **/roar** onto the end of the URL to see the actual app. (**NOTE: If you can't get to the app, wait a few moments and then run the last line from step 1 "nohup kubectl port-forward..."  again.**)
 
 ![Preview roar application](./images/promstart13.png?raw=true "Preview roar application")
 
