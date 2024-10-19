@@ -174,6 +174,8 @@ $ ./pf.sh
 
 **Purpose:  In this lab, we’ll see how to construct queries with the PromQL language.**
 
+**NOTE: If you encounter a situation where you are not getting the metrics from mysql showing up in Prometheus but they were before, try re-running step 4 from the previous lab (with update-db.sh) to make sure the admin setup is still in place.**
+
 1.	We're now going to turn our attention to creating queries in the Prometheus interface using Prometheus' built-in query language, PromQL.  First, to get ready for this, in the browser that is running the Prometheus interface, switch back to the main Prometheus window by clicking on "Prometheus" in the dark line at the top.  Once there, click to enable the five checkboxes under the main menu.
 
 ![selecting options](./images/promstart23.png?raw=true "selecting options")
