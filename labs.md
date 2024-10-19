@@ -384,8 +384,9 @@ Then scroll to the bottom of the page and click on **Save and Test**.  After a m
  ![import option](./images/promstart51.png?raw=true "import option")
  
 11.  In the field that says **Grafana.com dashboard URL or ID**, enter the location below and click the blue **Load** button.
+```
 https://grafana.com/grafana/dashboards/7362
-
+```
  ![enter location](./images/promstart52.png?raw=true "enter location")
  
 12. On the next page, you can leave everything as-is, except at the bottom for the Prometheus source, click in that box and select our default Prometheus data source that we setup. Then click the blue **Import** button at the bottom.
@@ -397,8 +398,9 @@ https://grafana.com/grafana/dashboards/7362
  ![new dashboard](./images/promstart55.png?raw=true "new dashboard")
 
 14.  Another cool one to import (via the same process) is the **Node Exporter Full** one.  It's available from the link below. A screenshot is also included.  (Here again, you'll need to select the Prometheus data source as we did before.)
+```
 https://grafana.com/grafana/dashboards/1860
- 
+``` 
  ![new dashboard](./images/promstart56.png?raw=true "new dashboard") 
 
 <p align="center">
