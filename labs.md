@@ -70,7 +70,7 @@ k get all -n traefik
 8.	So we need to tell Prometheus about traefik as a job.  There are two ways.  One way is just to apply two annotations to the service for the target application. However, this will not work with more advanced versions of Prometheus. So, we'll do this instead by updating a configmap that the Prometheus server uses to get job information out of. Back in the codespace, let's take a look at what has to be changed to add this job.  We have a "before" and "after" version in the extra directory. We'll use the built-in code diff tool to see the differences. Run the following in the terminal.
 
 ```
-cd extra (if not already there) 
+cd extra  
 code -d ps-cm-with-traefik.yaml ps-cm-start.yaml
 ``` 
 
