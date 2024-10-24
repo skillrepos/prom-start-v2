@@ -22,15 +22,13 @@ Then click on the option to create a new codespace.
 
 
 ## 2. Start the Kubernetes cluster and install the apps needed
-There is a script file in [**extra/install-apps.sh**](./roar-k8s/install-apps.sh) :
+There is a script file in [**extra/install-apps.sh**](./roar-k8s/install-apps.sh) .  Start that script in the codespace's TERMINAL tab in the bottom right section with the command below. (**This will several minutes to run and you can ignore any *WARNING* messages or *Error from server (NotFound)* messages - these are expected.**):
 
-    - Run the following commands in the codespace's terminal (**This will several minutes to run and you can ignore any WARNING messages or Error from server (NotFound) messages - these are expected.**):
+```
+extra/install-apps.sh
+```
 
-      ```
-      extra/install-apps.sh
-      ```
-
-    - The output should look similar to the following.
+The output should look similar to the following.
 
 ```console
 ...Removing any old minikube instances
