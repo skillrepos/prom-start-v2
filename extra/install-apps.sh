@@ -1,3 +1,21 @@
+#!/bin/bash
+
+# Timeout in seconds (adjust as needed)
+TIMEOUT=60
+
+# Check if Docker is available
+while ! docker info >/dev/null 2>&1; do
+  if [ $TIMEOUT -le 0 ]; then
+    echo "Timeout: Docker is not available."
+    exit 1
+  fi
+
+  echo "Waiting for Docker..."
+  sleep 1
+  TIMEOUT=$((TIMEOUT - 1))
+done
+
+echo "Docker is available!"
 echo ...Removing any old minikube instances
 minikube delete
 echo ...Starting minikube
