@@ -1,7 +1,7 @@
 # Getting Started with Prometheus
 ## Monitoring Kubernetes Infrastructure and Applications for Reliability
 ## Session labs 
-## Revision 2.4 - 10/24/24
+## Revision 2.5 - 02/13/25
 
 **Startup IF NOT ALREADY DONE! (This will take several minutes to run and there will be some error/warning messages along the way.)**
 ```
@@ -35,19 +35,23 @@ k get all -n monitoring
 
 ![Opening Prometheus](./images/promstart7.png?raw=true "Opening Prometheus")
 
-![Prometheus](./images/promstart8.png?raw=true "Prometheus")
+![Prometheus](./images/promstart65.png?raw=true "Prometheus")
 
 3.	Now, lets open up the node exporter's metrics page and look at the different information on it.  (Note that we only have one node on this cluster.) To open that page, go back to the codespace and follow the same process as for the Prometheus app for the Node Exporter link (**PORTS-> Node Exporter -> Open in Browser**). Then click on the **Metrics** link on the browser screen that comes up. Once on that page, scan through some of the metrics that are exposed by this exporter.  Then see if you can find the "total number of network bytes received" on device "lo". (Hint: look for this metric **node_network_receive_bytes_total{device="lo"}**).
 
 ![Opening Node Exporter](./images/promstart9.png?raw=true "Opening Node Exporter")
 
+![Getting to Metrics](./images/promstart66.png?raw=true "Getting to Metrics")
+
 ![Node Exporter](./images/promstart10.png?raw=true "Node Exporter")
 
 
 <br>
-4.	Now, let's see which targets Prometheus is automatically scraping from the cluster.  Switch back to the Prometheus application's tab in your browser.  Back in the top menu (dark bar) on the main Prometheus page tab, select Status and then Targets. Search for **cadvisor** or scroll through the screen to find cadvisor.  Then see if you can find how long ago the last scraping happened, and how long it took for the **kubernetes-nodes-cadvisor** target. 
+4.	Now, let's see which targets Prometheus is automatically scraping from the cluster.  Switch back to the Prometheus application's tab in your browser.  Back in the top menu (dark bar) on the main Prometheus page tab, select *Status* and then *Target health* under *Monitoring status*. 
 
-![Targets](./images/promstart15.png?raw=true "Targets")
+In the *Filter by endpoint or labels* box, enter  **cadvisor** or scroll through the screen to find cadvisor.  Then see if you can find how long ago the last scraping happened, and how long it took for the **kubernetes-nodes-cadvisor** target. 
+
+![Targets](./images/promstart68.png?raw=true "Targets")
  
 5.	Let's setup an application in our cluster that has a built-in Prometheus metrics exporter - *traefik* - an ingress. Switch back to the codespace. The Helm chart is already loaded for you. So, we just need to create a namespace for it and run a script to deploy it.  In the terminal, run the commands below. After a few moments, you should be able to see things running in the *traefik* namespace. (You will see some *waiting* messages - this is ok.)
 
@@ -57,11 +61,10 @@ extra/helm-install-traefik.sh
 k get all -n traefik
 ```
 
-6.	After a minute or two, you should now be able to see the metrics area that Traefik exposes for Prometheus as a pod endpoint.  In the tab where Prometheus is loaded, take a look in the **Status -> Targets** area of Prometheus and see if you can find it. You can enter "traefik" in the search box or use Ctrl-F/CMD-F to try to find the text **traefik**.  Note that this is the pod endpoint and not a standalone target.  (If you don't find it, see if the **kubernetes-pods (1/1 up)** has a *show more* button next to it. If so, click on that to expand the list.) If you don't see this, wait a bit, then refresh the browser and try again. 
+6.	After a minute or two, you should now be able to see the metrics area that Traefik exposes for Prometheus as a pod endpoint.  In the tab where Prometheus is loaded, take a look in the **Status -> Target health** area of Prometheus and see if you can find it. You can use Ctrl-F/CMD-F to try to find the text **traefik**.  Note that this is the pod endpoint and not a standalone target.  (If you don't find it, **refresh your screen** and see if the **kubernetes-pods (1/1 up)** has a *show more* button next to it. If so, click on that to expand the list.) If you don't see this, wait a bit, then refresh the browser and try again. 
 
-![traefik in targets](./images/promstart61.png?raw=true "traefik in targets") 
-![traefik in targets](./images/promstart16.png?raw=true "targets")
- 
+![traefik in targets](./images/promstart69.png?raw=true "traefik in targets") 
+
 
 7.	While we can find it as a pod endpoint, we don't yet have the traefik metrics established as a standalone "job" being monitored in Prometheus. You can see this because there is no section specifically for "traefik (1/1 up)" in the Targets page.  Also, Traefik is not listed if you check the Prometheus service-discovery page under **Status->Service Discovery**.
  
@@ -81,10 +84,11 @@ code -d ps-cm-with-traefik.yaml ps-cm-start.yaml
 k apply -n monitoring -f ps-cm-with-traefik.yaml 
 ```
       
-10.	 Now, after a few minutes, if you go back to the Prometheus session and refresh and look at the **Status->Targets** page in Prometheus and the **Service Discovery** page and filter via "traefik" in the search bar or do a Ctrl-F/CMD+F to search for **traefik**, you should find that the new item shows up as a standalone item on both pages. (It will take some time for the traefik target to reach (1/1 up) in the targets page, so you may have to wait, refresh and repeat until it shows up.)
+10.	 Now, after a few minutes, if you go back to the Prometheus session and refresh and look at the **Status->Targets** page in Prometheus and the **Service Discovery** page and filter via "traefik" in the **Select scrape pool** list on the top left, or do a Ctrl-F/CMD+F to search for **traefik**, you should find that the new item shows up as a standalone item on both pages. (It will take some time for the traefik target to reach (1/1 up) in the targets page, so you may have to wait, refresh and repeat until it shows up.)
 
-![Traefik in targets](./images/promstart18.png?raw=true "Traefik in targets")
-![Traefik in service discovery](./images/promstart17.png?raw=true "Traefik in service discovery")
+![Traefik in targets](./images/promstart71.png?raw=true "Traefik in targets")
+
+![Traefik in service discovery](./images/promstart70.png?raw=true "Traefik in service discovery")
 
 11. (Optional) If you want to see the metrics generated by traefik, you can open up the app from the PORTS page (**Traefik metrics row**) and add **/metrics** at the end of the URL once the page has opened.  (There will be a 404 there until you add the **/metrics** part.)
 
