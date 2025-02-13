@@ -238,11 +238,11 @@ mysql_global_status_commands_total{command=~"(select)"}
 ../extra/ping-db.sh roar 30 1
 ```
 
-![select spike](./images/promstart83.png?raw=true "select spike")
+![select spike](./images/promstart84.png?raw=true "select spike")
 
 10.	After clicking on the Execute button to refresh, you should see a small spike on the graph from our monitoring. (It may take a minute for the monitoring to catch up.) This is something we could key off of to know there was a load, but it will always just be an increasing value. Let's focus in on a smaller timeframe so we can see the changes easier.  In the upper left of the Prometheus Graph tab, change the interval selector down to 10m. (Note that you can type in this field too.)
  
-![decrease timeframe](./images/promstart33.png?raw=true "decrease timeframe") 
+![decrease timeframe](./images/promstart86.png?raw=true "decrease timeframe") 
 
 11.	What we really need here is a way to detect any significant increase over a point in time regardless of the previous value.  We can use the rate function we saw before for this. Change the query in Prometheus to be one that shows us the rate of change over the last 5 minutes and click on the Execute button again.
 
@@ -252,7 +252,7 @@ rate(mysql_global_status_commands_total{command=~"(select)"}[5m])
 
 12.	After clicking on the Execute button to refresh, you should see a different representation of the data. After you refresh, you'll be able to see that we no longer just see an increasing value, we can see where the highs and lows are.  
  
-![rate over 5](./images/promstart34.png?raw=true "rate over 5") 
+![rate over 5](./images/promstart85.png?raw=true "rate over 5") 
 
 <p align="center">
 **[END OF LAB]**
