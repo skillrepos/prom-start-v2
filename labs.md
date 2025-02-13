@@ -277,11 +277,11 @@ rate(mysql_global_status_commands_total{command=~"(select)"}[5m]) * 100 > 30
 
 3.	After a couple of minutes and a couple of refreshes, you'll be able to see that we no longer just see an increasing value, we can see where the highs and lows are.  
 
-![rate + multiplier](./images/promstart35.png?raw=true "rate + multiplier") 
+![rate + multiplier](./images/promstart88.png?raw=true "rate + multiplier") 
  
 4.	While we can monitor by refreshing the graph and looking at it, it would work better to have an alert setup for this.  Let's see what alerts we have currently.  Switch to the alerts tab of Prometheus by clicking on "Alerts" in the dark bar at the top. Currently, you wil not see any configured.
 
-![no alerts](./images/promstart36.png?raw=true "no alerts") 
+![no alerts](./images/promstart89.png?raw=true "no alerts") 
  
 5.	Now let's configure some alert rules.  We already have a configmap with some basic rules in it. Back in the terminal, "cat" the file extra/ps-cm-with-rules.yaml with the grep command and look at the "alerting-rules.yml" definition under "data:". 
 
@@ -298,7 +298,7 @@ k apply -n monitoring -f ps-cm-with-rules.yaml
 
 7.   This will take a few minutes to be picked up. You can then go back to the **Alerts** screen, **refresh it** and expand those to see the alert definitions. Notice that each alert uses a PromQL query like we might enter in the main Prometheus query area.
 
-![alert rules](./images/promstart37.png?raw=true "alert rules") 
+![alert rules](./images/promstart90.png?raw=true "alert rules") 
  
 
 8.	Let's add some custom alert rules for a group for mysql. These will follow a similar format as the other rules but using mysql PromQL queries, names, etc. There is already a file with them added - ps-cm-with-rules2.yaml. You can do a diff on that and our previous version of the cm data to see the new rules. (This is in the *extra* directory.)
@@ -315,7 +315,7 @@ code -d ps-cm-with-rules2.yaml ps-cm-with-rules.yaml
 k apply -n monitoring -f ps-cm-with-rules2.yaml
 ``` 
 
-![new alert rules](./images/promstart39.png?raw=true "new alert rules") 
+![new alert rules](./images/promstart91.png?raw=true "new alert rules") 
 
 10.	Let's see if we can get our alert to fire now. Run our loading program to simulate the load again with the rate query in effect. Execute the same script we used before again with 60 iterations and a 0.5 second wait in-between. 
 
@@ -325,11 +325,11 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 
 11.	After this runs, refresh Prometheus in the browser. Then, on the Alerts tab, you should be able to see that the alert was fired. You can expand it to see details.
    
-![alert firing](./images/promstart40.png?raw=true "alert firing")
+![alert firing](./images/promstart93.png?raw=true "alert firing")
 
 12. Now, that our alert has fired, we should be able to see it in the Alert Manager application.  On this machine, it is exposed at node port 35500.  Open up that location up via the row in the PORTS tab and take a look.
  
-![alert manager](./images/promstart41.png?raw=true "alert manager")
+![alert manager](./images/promstart95.png?raw=true "alert manager")
  
 <p align="center">
 **[END OF LAB]**
