@@ -350,9 +350,9 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
 ![grafana login](./images/promstart43.png?raw=true "grafana login")
  
 
-3.	Let's  first add our Prometheus instance as a Data Source.  Click on the *3 bar* menu at the top left and then select **Connections** and then **Data Sources** from the left menu.  Then click on the blue button for **Add data source**.  
+3.	Let's  first add our Prometheus instance as a Data Source.  Click on the **Connections** item in the left menu and then **Data Sources**.  Then click on the blue button for **Add data source**.  
  
-![add data source](./images/promstart59.png?raw=true "add data source")
+![add data source](./images/promstart96.png?raw=true "add data source")
  
 
 4. Select **Prometheus** and then for the HTTP URL field, enter
@@ -361,20 +361,20 @@ http://prom-start-prometheus-server.monitoring.svc.cluster.local
 ```
 Then scroll to the bottom of the page and click on **Save and Test**.  After a moment, you should get a response that indicates the data source is working.
  
-![enter source](./images/promstart46.png?raw=true "enter source")
+![enter source](./images/promstart97.png?raw=true "enter source")
 ![test source](./images/promstart47.png?raw=true "test source")
 
-5. Now, let's create a simple dashboard for one of our mysql metrics.  Click on the *three bars* menu on the left and select *Dashboards*.  Then on the Dashboards pane, select **+ Create Dashboard** from the menu.  
+5. Now, let's create a simple dashboard for one of our mysql metrics.  In the left menu, select *Dashboards*.  Then on the Dashboards pane, select **+ Create Dashboard**.  
  
-![new dashboard](./images/promstart60.png?raw=true "new dashboard") 
+![new dashboard](./images/promstart98.png?raw=true "new dashboard") 
 
 6.  Click on **Add visualization**. 
 
-![add viz](./images/promstart49.png?raw=true "add viz")  
+![add viz](./images/promstart99.png?raw=true "add viz")  
 
 7.  Select the **Prometheus** data source on the next screen.
 
- ![select source](./images/promstart50.png?raw=true "select source")  
+ ![select source](./images/promstart100.png?raw=true "select source")  
 
 
 8. Then click on the **Select metric** section (lower left) and pick a metric to show.  For example, you could type in **node_disk_io_time_seconds_total**.
@@ -394,7 +394,7 @@ Then scroll to the bottom of the page and click on **Save and Test**.  After a m
 ```
 https://grafana.com/grafana/dashboards/7362
 ```
- ![enter location](./images/promstart52.png?raw=true "enter location")
+ ![enter location](./images/promstart102.png?raw=true "enter location")
  
 12. On the next page, you can leave everything as-is, except at the bottom for the Prometheus source, click in that box and select our default Prometheus data source that we setup. Then click the blue **Import** button at the bottom.
  
