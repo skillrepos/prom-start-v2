@@ -97,12 +97,13 @@ k apply -n monitoring -f ps-cm-with-traefik.yaml
 <p align="center">
 **[END OF LAB]**
 </p>
+</br></br></br>
 
 **Lab 2 - Deploying a separate exporter for an application**
 
 **Purpose:  In this lab, we’ll see how to deploy a separate exporter for a mysql application running in our cluster.**
 
-1.	We have a simple webapp application with a mysql backend that we're going to run in our cluster.  The application is named "roar" and we have a manifest with everything we need to deploy it into our cluster.  Go ahead and deploy it now.
+1.	We have a simple webapp application with a mysql backend that we're going to run in our cluster.  The application is named "roar" and we have a manifest with everything we need to deploy it into our cluster.  Go ahead and deploy it now. Run the following in the codespace's terminal.
 
 ```
 cd /workspaces/prom-start-v2/roar-k8s
@@ -157,13 +158,13 @@ k apply -n monitoring -f ps-cm-with-mysql.yaml
 ```
 <br>
 
-9.	Switching back to the application, you should now be able to see the mysql item in the **Prometheus Targets** page and also in the **Service Discovery** page. (Again, it may take a few minutes for the mysql target to appear and reach (1/1 up).)
+9.	Switching back to the application, you should now be able to see the *mysql* item in the **Prometheus Targets** page and also in the **Service Discovery** page. (Again, it may take a few minutes for the mysql target to appear and reach (1/1 up).)
 
- ![mysql exporter in targets](./images/promstart21.png?raw=true "mysql exporter in targets")
- ![mysql exporter in service discovery](./images/promstart20.png?raw=true "mysql exporter in service discovery")
+ ![mysql exporter in targets](./images/promstart73.png?raw=true "mysql exporter in targets")
+ ![mysql exporter in service discovery](./images/promstart72.png?raw=true "mysql exporter in service discovery")
 <br> 
 
-10.	 (Optional) If you want to see the metrics that are exposed by this job, there is a small script named pf.sh (in mysql-ex) that you can run to setup port-forwarding for the mysql-exporter.  Then you can look in the browser via the location from the PORTS tab.
+10.	 (Optional) If you want to see the metrics that are exposed by this job, there is a small script named pf.sh (in mysql-ex) that you can run to setup port-forwarding for the mysql-exporter.  Then you can look in the browser via the opening the page from the pop-up or opening the location from the PORTS tab.
 
 $ ./pf.sh
 
@@ -172,6 +173,7 @@ $ ./pf.sh
 <p align="center">
 **[END OF LAB]**
 </p>
+</br></br></br>
 
 **Lab 3 -  Writing queries with PromQL**
 
