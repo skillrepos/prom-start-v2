@@ -181,37 +181,39 @@ $ ./pf.sh
 
 **NOTE: If you encounter a situation where you are not getting the metrics from mysql showing up in Prometheus but they were before, try re-running step 4 from the previous lab (with update-db.sh) to make sure the admin setup is still in place.**
 
-1.	We're now going to turn our attention to creating queries in the Prometheus interface using Prometheus' built-in query language, PromQL.  First, to get ready for this, in the browser that is running the Prometheus interface, switch back to the main Prometheus window by clicking on "Prometheus" in the dark line at the top.  Once there, click to enable the five checkboxes under the main menu.
+1.	We're now going to turn our attention to creating queries in the Prometheus interface using Prometheus' built-in query language, PromQL.  First, to get ready for this, in the browser that is running the Prometheus interface, switch to the Query window by clicking on "Query" in the dark line at the top.  Then, click on the *gear* icon for the *Settings* and click to enable the five checkboxes on the left side.
 
-![selecting options](./images/promstart23.png?raw=true "selecting options")
+![selecting options](./images/promstart74.png?raw=true "selecting options")
 
-2.	There are a couple of different ways to find available metrics to choose from in Prometheus. One way is to click on the query explorer icon next to the blue **Execute** button on the far right. Click on that and you can scroll through the list that pops up.  You don't need to pick any right now and you can close it (via the **X** in the upper right) when done.
+2.	There are a couple of different ways to find available metrics to choose from in Prometheus. One way is to click on the "three dots" link next to the blue **Execute** button on the far right. Click on that and then on **Explore metrics**. You can then scroll through the list that pops up.  You don't need to pick any right now and you can close it (via the **X** in the upper right) when done.
  
-![metrics explorer](./images/promstart24.png?raw=true "metrics explorer")
-
-3.	Another way to narrow in quickly on a metric you're interested in is to start typing in the **Expression** area and pick from the list that pops-up based on what you've typed. Try typing in the names of some of the applications that we are monitoring and see the metrics available.  For example, you can type in **con** to see the ones for containers, **mysql** to see the ones for mysql, and so on. You don't need to select any right now, so once you are done, you can clear out the Expression box.
+![metrics explorer](./images/promstart75.png?raw=true "metrics explorer")
  
-![mysql metrics](./images/promstart25.png?raw=true "mysql metrics")
+![metrics explorer](./images/promstart76.png?raw=true "metrics explorer")
 
-4.	Now, let's actually enter a metric and execute it and see what we get.  Let's try a simple *time series* one.  In the Expression box, type in *node_cpu_seconds_total*. As the name may suggest to you, this is a metric provided by the node exporter and tracks the total cpu seconds for the node. In our case, we only have one node.  After you type this in, click on the blue **Execute** button at the far right to see the results.  
+3.	Another way to narrow in quickly on a metric you're interested in is to start typing in the ** Enter Expression** area and pick from the list that pops-up based on what you've typed. Try typing in the names of some of the applications that we are monitoring and see the metrics available.  For example, you can type in **con** to see the ones for containers, **mysql** to see the ones for mysql, and so on. You don't need to select any right now, so once you are done, you can clear out the Expression box.
+ 
+![mysql metrics](./images/promstart77.png?raw=true "mysql metrics")
+
+4.	Now, let's actually enter a metric and execute it and see what we get.  Let's try a simple *time series* one.  In the *Enter Expression* box, type in *node_cpu_seconds_total*. As the name may suggest to you, this is a metric provided by the node exporter and tracks the total cpu seconds for the node. In our case, we only have one node.  After you type this in, click on the blue **Execute** button at the far right to see the results.  
 
 ```
 node_cpu_seconds_total
 ```
 
-![node_cpu_seconds_total metric](./images/promstart26.png?raw=true "node_cpu_seconds_total metric")
+![node_cpu_seconds_total metric](./images/promstart78.png?raw=true "node_cpu_seconds_total metric")
 
 
-5.	Notice that we have a lot of rows of output from this single query.  If you look closely, you can see that each row is different in some aspect, such as the cpu number or the mode. Rows of data like this are not that easy to digest. Instead, it is easier to visualize with a graph. So, click on the **Graph** link above the rows of data to see a visual representation.  You can then move your cursor around and get details on any particular point on the graph.  Notice that there is a color-coded key below the graph as well.
+5.	Notice that we have a lot of rows of output from this single query.  If you look closely, you can see that each row is different in some aspect, such as the *cpu* or the *mode*. Rows of data like this are not that easy to digest. Instead, it is easier to visualize with a graph. So, click on the **Graph** link above the rows of data to see a visual representation.  You can then move your cursor around and get details on any particular point on the graph.  Notice that there is a color-coded key below the graph as well.
 
- ![metrics graph](./images/promstart27.png?raw=true "metrics graph")
+ ![metrics graph](./images/promstart79.png?raw=true "metrics graph")
 
 6.	What if we want to see only one particular set of data?  If you look closely at the lines below the graph, you'll see that each is qualified/filtered by a set of *labels* within { and }.  We can use the same syntax in the Expression box with any labels we choose to pick which items we see.  Change your query to the one below and then click on Execute again to see a filtered graph. (Notice that Prometheus will offer pop-up lists to help you fill in the syntax if you want to use them.) After you click Execute, you will see a single data series that increases over time.
 
 ```
 node_cpu_seconds_total{cpu="0",mode="user"}  
 ```
-![individual metric](./images/promstart28.png?raw=true "individual metric")
+![individual metric](./images/promstart80.png?raw=true "individual metric")
 
 7.	So far we have used counters in our queries - a value that increases (or can be reset to 0) as indicated by the *total* in the name.  However, there are other kinds of time series such as *gauges* where values can go up or down.  Let's see an example of one of those. Change your query to the expression below and then click the blue Execute button again.
 
@@ -219,7 +221,7 @@ node_cpu_seconds_total{cpu="0",mode="user"}
 node_memory_Active_bytes
 ```
 
-![gauge metric](./images/promstart29.png?raw=true "gauge metric")
+![gauge metric](./images/promstart81.png?raw=true "gauge metric")
 
 8.	Let's look at queries for another application. Suppose we want to monitor how much applications are referencing our database and doing "select" queries. We could use a mysql query to see the increase over time.  Enter the query below in the query area and then click on Execute. A screenshot below shows what this should look like.
 
@@ -227,16 +229,16 @@ node_memory_Active_bytes
 mysql_global_status_commands_total{command=~"(select)"}
 ```
  
- ![mysql select metric 1](./images/promstart30.png?raw=true "mysql select metric 1")
+ ![mysql select metric 1](./images/promstart82.png?raw=true "mysql select metric 1")
 
 
-9.	Now let's simulate some query traffic to the database.  I have a simple shell script that randomly queries the database in our application x times while waiting a certain interval between queries. It's called ping-db.sh.  Run this in a terminal for 30 times with an interval of 1 second per the command below. Then go back and refresh the graph again by clicking on the blue Execute button. (Note that you may need to wait a bit and refresh again to see the spike.)
+9.	Now let's simulate some query traffic to the database.  I have a simple shell script that randomly queries the database in our application x times while waiting a certain interval between queries. It's called ping-db.sh.  Run this in the codespace terminal for 30 times with an interval of 1 second per the command below. Then go back to the Prometheus tab and refresh the graph again by clicking on the blue Execute button. (Note that you may need to wait a bit and refresh again to see the spike.)
 
 ```
 ../extra/ping-db.sh roar 30 1
 ```
 
-![select spike](./images/promstart31.png?raw=true "select spike")
+![select spike](./images/promstart83.png?raw=true "select spike")
 
 10.	After clicking on the Execute button to refresh, you should see a small spike on the graph from our monitoring. (It may take a minute for the monitoring to catch up.) This is something we could key off of to know there was a load, but it will always just be an increasing value. Let's focus in on a smaller timeframe so we can see the changes easier.  In the upper left of the Prometheus Graph tab, change the interval selector down to 10m. (Note that you can type in this field too.)
  
