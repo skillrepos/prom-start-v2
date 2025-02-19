@@ -46,7 +46,6 @@ k get all -n monitoring
 ![Node Exporter](./images/promstart10.png?raw=true "Node Exporter")
 
 
-<br>
 4.	Now, let's see which targets Prometheus is automatically scraping from the cluster.  Switch back to the Prometheus application's tab in your browser.  Back in the top menu (dark bar) on the main Prometheus page tab, select *Status* and then *Target health* under *Monitoring status*. 
 
 In the *Filter by endpoint or labels* box, enter  **cadvisor** or scroll through the screen to find cadvisor.  Then see if you can find how long ago the last scraping happened, and how long it took for the **kubernetes-nodes-cadvisor** target. 
