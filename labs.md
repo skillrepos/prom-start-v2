@@ -1,7 +1,7 @@
 # Getting Started with Prometheus
 ## Monitoring Kubernetes Infrastructure and Applications for Reliability
 ## Session labs 
-## Revision 2.5 - 02/13/25
+## Revision 2.6 - 02/20/25
 
 **Startup IF NOT ALREADY DONE! (This will take several minutes to run and there will be some error/warning messages along the way.)**
 ```
@@ -326,7 +326,7 @@ k apply -n monitoring -f ps-cm-with-rules2.yaml
    
 ![alert firing](./images/promstart93.png?raw=true "alert firing")
 
-12. Now, that our alert has fired, we should be able to see it in the Alert Manager application.  On this machine, it is exposed at node port 35500.  Open up that location up via the row in the PORTS tab and take a look.
+12. Now, that our alert has fired, we should be able to see it in the Alert Manager application.  On this machine, it is exposed at node port 35400.  Open up that location up via the *Alert Manager* row in the PORTS tab and take a look.
  
 ![alert manager](./images/promstart95.png?raw=true "alert manager")
  
